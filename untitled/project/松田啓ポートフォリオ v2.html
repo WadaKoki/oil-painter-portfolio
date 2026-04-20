@@ -1,0 +1,962 @@
+<!DOCTYPE html><html lang="ja" data-palette="sumi" data-ornament="minimal" style="--bg: #0f0d0b; --paper: #15120f; --ink: #f2ead3; --soft: #c4b9a3; --rule: #4a4236; --accent: #d9a85a; --font-serif: &quot;Shippori Mincho&quot;,&quot;Noto Serif JP&quot;,serif; --font-latin: &quot;Cormorant Garamond&quot;, serif; --font-body: &quot;Noto Serif JP&quot;, serif; --pad: 9rem; --gap: 4.5rem; --cols: 2;"><head>
+
+
+
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>松田 啓 — 油彩画家</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;500;600;700&amp;family=Noto+Sans+JP:wght@300;400;500;700&amp;family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&amp;family=Shippori+Mincho:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+
+<script>
+/* ================== TWEAKS ================== */
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "palette": "tetsusabi",
+  "typography": "mincho",
+  "density": "airy",
+  "ornament": "minimal"
+}/*EDITMODE-END*/;
+
+/* Palettes — 墨・漆黒系を主軸に、明るめも比較用に */
+const PALETTES = {
+  sumi:    { bg:"#0f0d0b", paper:"#161310", ink:"#f2ead3", soft:"#c4b9a3", rule:"#4a4236", accent:"#d9a85a", label:"墨" },
+  shikkoku:{ bg:"#050505", paper:"#0e0e0e", ink:"#f5f5f2", soft:"#b8b8b5", rule:"#2a2a2a", accent:"#e8e8e5", label:"漆黒" },
+  konjo:   { bg:"#0a1220", paper:"#101a2c", ink:"#e8ecf5", soft:"#aab4c8", rule:"#2a3650", accent:"#c9d4e8", label:"紺青" },
+  tetsusabi:{bg:"#14100d", paper:"#1c1713", ink:"#efe4d0", soft:"#b8a38a", rule:"#3a2f26", accent:"#c67b3e", label:"鉄錆" },
+  kogecha: { bg:"#1a1410", paper:"#221a14", ink:"#ede2c8", soft:"#b8a58a", rule:"#3e3224", accent:"#a88456", label:"焦茶" },
+  washi:   { bg:"#f2ede3", paper:"#faf6ee", ink:"#171412", soft:"#4a4239", rule:"#b8ad98", accent:"#9b3a2a", label:"和紙" },
+  gofun:   { bg:"#fafafa", paper:"#ffffff", ink:"#0a0a0a", soft:"#3d3d3d", rule:"#cfcfcf", accent:"#111111", label:"胡粉" }
+};
+
+const TYPOGRAPHY = {
+  mincho:   { serif:'"Shippori Mincho","Noto Serif JP",serif', latin:'"Cormorant Garamond", serif', body:'"Noto Serif JP", serif', label:"明朝" },
+  gothic:   { serif:'"Noto Sans JP", sans-serif', latin:'"Cormorant Garamond", serif', body:'"Noto Sans JP", sans-serif', label:"ゴシック" },
+  mix:      { serif:'"Shippori Mincho", serif', latin:'"Cormorant Garamond", serif', body:'"Noto Sans JP", sans-serif', label:"明朝＋ゴシック" }
+};
+
+const DENSITIES = {
+  airy:    { pad: "9rem",  gap:"4.5rem", cols:2, label:"ゆったり" },
+  regular: { pad: "6rem",  gap:"3rem",   cols:3, label:"標準" },
+  dense:   { pad: "3.5rem",gap:"1.75rem",cols:4, label:"密" }
+};
+
+let currentTweaks = { ...TWEAK_DEFAULTS };
+
+function applyTweaks(t){
+  currentTweaks = { ...currentTweaks, ...t };
+  const p = PALETTES[currentTweaks.palette] || PALETTES.washi;
+  const tp = TYPOGRAPHY[currentTweaks.typography] || TYPOGRAPHY.mincho;
+  const d = DENSITIES[currentTweaks.density] || DENSITIES.regular;
+  const r = document.documentElement.style;
+  r.setProperty('--bg', p.bg);
+  r.setProperty('--paper', p.paper);
+  r.setProperty('--ink', p.ink);
+  r.setProperty('--soft', p.soft);
+  r.setProperty('--rule', p.rule);
+  r.setProperty('--accent', p.accent);
+  r.setProperty('--font-serif', tp.serif);
+  r.setProperty('--font-latin', tp.latin);
+  r.setProperty('--font-body', tp.body);
+  r.setProperty('--pad', d.pad);
+  r.setProperty('--gap', d.gap);
+  r.setProperty('--cols', d.cols);
+  document.documentElement.dataset.palette = currentTweaks.palette;
+  document.documentElement.dataset.ornament = currentTweaks.ornament;
+}
+</script>
+
+<style>
+:root{
+  --bg:#f2ede3; --paper:#faf6ee; --ink:#171412; --soft:#4a4239;
+  --rule:#b8ad98; --accent:#9b3a2a;
+  --font-serif:'"Shippori Mincho","Noto Serif JP",serif';
+  --font-latin:'Cormorant Garamond, serif';
+  --font-body:'"Noto Serif JP",serif';
+  --pad:6rem; --gap:3rem; --cols:3;
+  font-size:18px; /* base 大きめ */
+}
+@media (max-width: 1100px){ :root{ font-size:17px; } }
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--ink);font-family:var(--font-body);font-weight:400;line-height:1.9;-webkit-font-smoothing:antialiased}
+body{font-feature-settings:"palt" 1;letter-spacing:.02em}
+/* focus visible for keyboard users */
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+
+/* ============ TOP NAV ============ */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:50;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:1.25rem 2.5rem;
+  background:color-mix(in srgb, var(--bg) 92%, transparent);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid color-mix(in srgb, var(--rule) 70%, transparent);
+}
+.nav-brand{font-family:var(--font-serif);font-size:1.1rem;letter-spacing:.25em;font-weight:500}
+.nav-brand small{display:block;font-family:var(--font-latin);font-style:italic;font-size:.8rem;letter-spacing:.1em;color:var(--soft);margin-top:3px}
+.nav-links{display:flex;gap:.75rem;font-family:var(--font-serif);font-size:1rem;letter-spacing:.15em;color:var(--ink)}
+.nav-links a{position:relative;padding:.85rem 1.1rem;transition:color .25s,background .25s;border-radius:2px;min-height:44px;display:flex;align-items:center}
+.nav-links a:hover{color:var(--accent);background:color-mix(in srgb, var(--accent) 8%, transparent)}
+.nav-links a.active{color:var(--accent)}
+.nav-links a.active::after{content:"";position:absolute;left:1.1rem;right:1.1rem;bottom:.4rem;height:2px;background:var(--accent)}
+
+/* ============ HERO ============ */
+.hero{
+  position:relative;min-height:100vh;
+  padding: 10rem var(--pad) 6rem;
+  display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;
+  overflow:hidden;
+}
+.hero::before{
+  content:"作";position:absolute;right:-2rem;bottom:-6rem;
+  font-family:var(--font-serif);font-size:38rem;line-height:1;
+  color:var(--ink);opacity:.025;pointer-events:none;font-weight:500;
+}
+.hero-meta{font-family:var(--font-serif);font-size:1rem;letter-spacing:.15em;color:var(--soft);margin-bottom:2rem;display:flex;align-items:center;gap:1rem}
+.hero-meta::before{content:"";display:inline-block;width:2.5rem;height:2px;background:var(--accent)}
+.hero-title{
+  font-family:var(--font-serif);font-weight:600;
+  font-size:clamp(3.5rem, 7vw, 6rem);line-height:1.15;letter-spacing:.04em;
+  margin-bottom:1.25rem;
+}
+.hero-title .kana{display:block;font-size:.3em;letter-spacing:.4em;color:var(--soft);font-weight:400;margin-bottom:1rem}
+.hero-latin{font-family:var(--font-latin);font-style:italic;font-weight:400;font-size:1.5rem;color:var(--soft);letter-spacing:.1em;margin-bottom:2.5rem}
+.hero-desc{font-size:1.15rem;line-height:2.1;max-width:28em;color:var(--ink);margin-bottom:2.5rem;text-wrap:pretty}
+.hero-accolade{
+  padding:1.75rem 2rem;border:2px solid var(--accent);
+  background:var(--paper);display:inline-block;max-width:32em;
+}
+.hero-accolade-label{font-family:var(--font-serif);font-size:.95rem;letter-spacing:.18em;color:var(--accent);margin-bottom:.6rem;font-weight:500}
+.hero-accolade-title{font-family:var(--font-serif);font-size:1.25rem;font-weight:600;line-height:1.6}
+.hero-accolade-sub{font-size:1rem;color:var(--ink);margin-top:.5rem;letter-spacing:.08em}
+
+/* hero image placeholder (oil-painting stand-in) */
+.hero-art{
+  position:relative;aspect-ratio:4/5;
+  background:var(--paper);
+  border:1px solid var(--rule);
+  display:flex;align-items:flex-end;justify-content:flex-start;
+  padding:2rem;
+}
+.hero-art::before{
+  content:"";position:absolute;inset:1.25rem;
+  background:
+    repeating-linear-gradient(135deg, color-mix(in srgb, var(--soft) 15%, transparent) 0 1px, transparent 1px 14px),
+    linear-gradient(180deg, color-mix(in srgb, var(--accent) 8%, var(--paper)) 0%, color-mix(in srgb, var(--ink) 6%, var(--paper)) 60%, color-mix(in srgb, var(--soft) 20%, var(--paper)) 100%);
+  border:1px solid color-mix(in srgb, var(--ink) 8%, transparent);
+}
+.hero-art-cap{
+  position:relative;z-index:1;font-family:'ui-monospace', monospace;
+  font-size:.7rem;letter-spacing:.1em;color:var(--soft);
+  background:color-mix(in srgb, var(--paper) 92%, transparent);
+  padding:.5rem .75rem;border:1px solid var(--rule);
+}
+.hero-art-label{
+  position:absolute;top:1.25rem;right:1.25rem;z-index:2;
+  writing-mode:vertical-rl;text-orientation:mixed;
+  font-family:var(--font-serif);font-size:.9rem;letter-spacing:.5em;
+  color:var(--paper);
+  mix-blend-mode:difference;
+}
+.hero-scroll{
+  position:absolute;left:50%;bottom:2rem;transform:translateX(-50%);
+  font-family:var(--font-serif);font-size:.9rem;letter-spacing:.3em;
+  color:var(--soft);
+  display:flex;flex-direction:column;align-items:center;gap:.75rem;
+}
+.hero-scroll::after{content:"";width:1px;height:2.5rem;background:var(--rule);animation:drip 2.5s ease-in-out infinite}
+@keyframes drip{0%,100%{transform:scaleY(.3);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}}
+
+/* ============ SECTION FRAME ============ */
+section{padding:6rem var(--pad);position:relative}
+.section-head{
+  display:grid;grid-template-columns:auto 1fr auto;gap:2rem;align-items:baseline;
+  margin-bottom:4rem;padding-bottom:1.5rem;border-bottom:2px solid var(--rule);
+}
+.section-num{font-family:var(--font-serif);font-size:1rem;letter-spacing:.2em;color:var(--accent);font-weight:500}
+.section-title{font-family:var(--font-serif);font-size:2.75rem;font-weight:600;letter-spacing:.1em}
+.section-title .en{display:block;font-family:var(--font-latin);font-style:italic;font-size:1.1rem;color:var(--soft);letter-spacing:.15em;margin-top:.5rem;font-weight:400}
+.section-kicker{font-family:var(--font-serif);font-size:.95rem;letter-spacing:.2em;color:var(--soft);text-align:right}
+
+/* ============ ABOUT ============ */
+.about{background:var(--paper)}
+.about-grid{display:grid;grid-template-columns:1fr 1.1fr;gap:var(--gap);align-items:start}
+.about-portrait{
+  aspect-ratio:3/4;background:var(--bg);border:1px solid var(--rule);
+  position:relative;overflow:hidden;
+}
+.about-portrait::before{
+  content:"";position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse at 50% 30%, color-mix(in srgb, var(--paper) 65%, transparent), transparent 60%),
+    repeating-linear-gradient(110deg, color-mix(in srgb, var(--ink) 10%, transparent) 0 1px, transparent 1px 18px);
+}
+.about-portrait-cap{position:absolute;bottom:1rem;left:1rem;font-family:'ui-monospace',monospace;font-size:.65rem;color:var(--soft);background:var(--paper);padding:.35rem .6rem;letter-spacing:.1em;border:1px solid var(--rule)}
+.about-body p{margin-bottom:1.75rem;font-size:1.1rem;line-height:2.2;text-wrap:pretty;color:var(--ink)}
+.about-body p:first-child{font-family:var(--font-serif);font-size:1.2rem;line-height:2.1;color:var(--ink)}
+.about-body .first-char{font-family:var(--font-serif);font-size:4rem;float:left;line-height:.9;margin:.3rem .6rem 0 0;color:var(--accent);font-weight:600}
+.about-affil{margin-top:2.5rem;display:flex;flex-direction:column;gap:.9rem;padding-top:1.75rem;border-top:1px solid var(--rule)}
+.about-affil-row{display:grid;grid-template-columns:8rem 1fr;font-size:1rem}
+.about-affil-row dt{font-family:var(--font-serif);color:var(--soft);letter-spacing:.12em;font-size:.9rem;padding-top:.2rem;font-weight:500}
+.about-affil-row dd{font-family:var(--font-serif);letter-spacing:.05em;font-size:1.05rem}
+
+/* awards timeline */
+.awards{margin-top:4rem}
+.awards-title{font-family:var(--font-serif);font-size:1.35rem;letter-spacing:.25em;margin-bottom:2rem;color:var(--ink);text-align:center;font-weight:600}
+.award{
+  display:grid;grid-template-columns:6.5rem 1fr auto;gap:2.5rem;align-items:center;
+  padding:1.75rem 0;border-top:1px solid var(--rule);
+}
+.award:last-child{border-bottom:1px solid var(--rule)}
+.award-year{font-family:var(--font-serif);font-size:1.75rem;color:var(--accent);font-weight:600;letter-spacing:.05em}
+.award-title{font-family:var(--font-serif);font-size:1.25rem;font-weight:500;letter-spacing:.05em;line-height:1.5}
+.award-title .work{display:block;font-size:1.05rem;color:var(--ink);font-weight:500;margin-top:.4rem;letter-spacing:.08em}
+.award-title .work::before{content:"『";color:var(--accent)}
+.award-title .work::after{content:"』";color:var(--accent)}
+.award-badge{
+  font-family:var(--font-serif);font-size:.9rem;letter-spacing:.15em;
+  color:var(--accent);padding:.5rem 1rem;border:2px solid var(--accent);white-space:nowrap;font-weight:500;
+}
+.award.featured{background:color-mix(in srgb, var(--accent) 8%, transparent);margin:0 -1.5rem;padding:1.75rem 1.5rem}
+.award.featured .award-year{font-size:2.25rem}
+
+/* ============ WORKS GALLERY ============ */
+.works{background:var(--bg)}
+.works-filter{display:flex;justify-content:center;gap:.5rem;margin-bottom:3.5rem;flex-wrap:wrap}
+.works-filter button{
+  background:var(--paper);border:2px solid var(--rule);font-family:var(--font-serif);font-size:1.05rem;color:var(--ink);
+  letter-spacing:.1em;cursor:pointer;padding:.85rem 1.75rem;transition:all .2s;min-height:48px;font-weight:500;
+}
+.works-filter button .count{font-family:var(--font-serif);font-size:.85rem;color:var(--accent);margin-left:.5rem;font-weight:400}
+.works-filter button:hover{border-color:var(--accent);color:var(--accent)}
+.works-filter button.active{background:var(--accent);border-color:var(--accent);color:var(--paper)}
+.works-filter button.active .count{color:var(--paper);opacity:.8}
+
+.works-grid{display:grid;grid-template-columns:repeat(var(--cols),1fr);gap:var(--gap) calc(var(--gap) * .8)}
+.work{cursor:pointer;transition:opacity .4s}
+.work:hover .work-thumb::before{opacity:.4}
+.work:hover .work-thumb::after{opacity:1}
+.work-thumb{
+  aspect-ratio:4/5;background:var(--paper);border:1px solid var(--rule);
+  position:relative;overflow:hidden;margin-bottom:1.25rem;
+}
+.work[data-orient="wide"] .work-thumb{aspect-ratio:5/4}
+.work[data-orient="sq"] .work-thumb{aspect-ratio:1/1}
+.work-thumb-art{
+  position:absolute;inset:1rem;
+  background:
+    linear-gradient(var(--g-angle,165deg), var(--g-a,#a37a4a), var(--g-b,#4a5a3c) 55%, var(--g-c,#2a2318));
+  border:1px solid color-mix(in srgb, var(--ink) 10%, transparent);
+}
+.work-thumb-art::after{
+  content:"";position:absolute;inset:0;
+  background:
+    repeating-linear-gradient(2deg, transparent 0 3px, color-mix(in srgb,#000 15%, transparent) 3px 4px),
+    repeating-linear-gradient(92deg, transparent 0 4px, color-mix(in srgb,#000 10%, transparent) 4px 5px);
+  mix-blend-mode:overlay;opacity:.6;
+}
+.work-thumb::before{
+  content:"";position:absolute;inset:0;background:var(--ink);opacity:0;transition:opacity .4s;z-index:2;
+}
+.work-thumb::after{
+  content:"詳細を見る";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+  font-family:var(--font-serif);font-size:1rem;letter-spacing:.25em;color:var(--paper);
+  opacity:0;transition:opacity .3s;z-index:3;
+  border:2px solid var(--paper);padding:.85rem 1.75rem;white-space:nowrap;font-weight:500;
+}
+.work-num{position:absolute;top:.75rem;left:.75rem;font-family:var(--font-serif);font-size:.85rem;color:color-mix(in srgb, var(--paper) 85%, transparent);z-index:2;letter-spacing:.1em;font-weight:500}
+.work-caption{display:flex;flex-direction:column;gap:.35rem}
+.work-title{font-family:var(--font-serif);font-size:1.2rem;font-weight:600;letter-spacing:.06em;color:var(--ink)}
+.work-meta{display:flex;justify-content:space-between;font-family:var(--font-serif);font-size:.9rem;color:var(--soft);letter-spacing:.05em}
+.work-meta span:last-child{letter-spacing:.08em}
+
+.works-more{text-align:center;margin-top:4rem}
+.works-more a{font-family:var(--font-serif);letter-spacing:.2em;font-size:1.05rem;color:var(--ink);border:2px solid var(--ink);padding:.85rem 2rem;display:inline-block;transition:all .25s;font-weight:500;min-height:48px}
+.works-more a:hover{background:var(--ink);color:var(--paper)}
+
+/* ============ MODAL ============ */
+.modal-back{
+  position:fixed;inset:0;background:color-mix(in srgb, var(--ink) 85%, transparent);
+  z-index:100;display:none;align-items:center;justify-content:center;padding:4rem;
+  opacity:0;transition:opacity .4s;
+}
+.modal-back.open{display:flex;opacity:1}
+.modal{
+  background:var(--paper);max-width:1100px;width:100%;max-height:90vh;overflow:auto;
+  display:grid;grid-template-columns:1.2fr 1fr;gap:0;position:relative;
+  border:1px solid var(--rule);
+}
+.modal-close{position:absolute;top:1rem;right:1rem;z-index:2;background:var(--paper);border:2px solid var(--ink);width:3rem;height:3rem;cursor:pointer;font-family:var(--font-serif);font-size:1.3rem;color:var(--ink);font-weight:500}
+.modal-close:hover{background:var(--ink);color:var(--paper)}
+.modal-art{aspect-ratio:4/5;background:var(--bg);position:relative}
+.modal-art-inner{position:absolute;inset:2rem;background:linear-gradient(165deg, var(--g-a,#a37a4a), var(--g-b,#4a5a3c) 55%, var(--g-c,#2a2318));border:1px solid color-mix(in srgb, var(--ink) 10%, transparent)}
+.modal-art-inner::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(3deg, transparent 0 3px, color-mix(in srgb,#000 15%, transparent) 3px 4px);mix-blend-mode:overlay;opacity:.6}
+.modal-info{padding:3rem 2.5rem;display:flex;flex-direction:column}
+.modal-num{font-family:var(--font-serif);font-size:1rem;color:var(--accent);letter-spacing:.15em;margin-bottom:1rem;font-weight:500}
+.modal-title{font-family:var(--font-serif);font-size:2.25rem;font-weight:600;letter-spacing:.05em;margin-bottom:.5rem;line-height:1.3}
+.modal-title-en{font-family:var(--font-latin);font-style:italic;color:var(--soft);font-size:1.15rem;margin-bottom:2rem;letter-spacing:.08em}
+.modal-specs{display:flex;flex-direction:column;gap:.9rem;margin-bottom:2rem;padding:1.75rem 0;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.modal-specs dl{display:grid;grid-template-columns:7rem 1fr;font-size:1rem}
+.modal-specs dt{font-family:var(--font-serif);color:var(--soft);letter-spacing:.12em;font-size:.9rem;font-weight:500}
+.modal-specs dd{font-family:var(--font-serif);letter-spacing:.05em;color:var(--ink)}
+.modal-desc{font-size:1.05rem;line-height:2;color:var(--ink);text-wrap:pretty}
+.modal-nav{margin-top:auto;display:flex;justify-content:space-between;padding-top:2rem;border-top:1px solid var(--rule);font-family:var(--font-serif);font-size:1rem;letter-spacing:.1em;color:var(--ink);gap:1rem}
+.modal-nav button{background:var(--paper);border:2px solid var(--rule);cursor:pointer;font:inherit;color:inherit;letter-spacing:inherit;padding:.85rem 1.5rem;transition:all .2s;min-height:48px;flex:1}
+.modal-nav button:hover{border-color:var(--accent);color:var(--accent);background:color-mix(in srgb, var(--accent) 6%, var(--paper))}
+
+/* ============ EXHIBITIONS ============ */
+.exhibitions{background:var(--paper)}
+.exh-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--gap)}
+.exh-col h4{font-family:var(--font-serif);font-size:1.35rem;letter-spacing:.2em;margin-bottom:2rem;color:var(--ink);text-align:center;padding-bottom:1rem;border-bottom:2px solid var(--accent);font-weight:600}
+.exh-item{
+  display:grid;grid-template-columns:5.5rem 1fr;gap:1.5rem;padding:1.5rem 0;
+  border-bottom:1px solid color-mix(in srgb, var(--rule) 80%, transparent);
+  align-items:baseline;
+}
+.exh-year{font-family:var(--font-serif);font-size:1.4rem;color:var(--accent);font-weight:600;letter-spacing:.05em}
+.exh-body{font-size:1.05rem;line-height:1.7}
+.exh-body .title{font-family:var(--font-serif);font-weight:600;letter-spacing:.05em;display:block;margin-bottom:.35rem;font-size:1.1rem;color:var(--ink)}
+.exh-body .venue{color:var(--soft);font-size:.95rem;letter-spacing:.05em}
+
+/* ============ PROCESS ============ */
+.process{background:var(--bg);padding-top:8rem;padding-bottom:8rem}
+.process-intro{max-width:38em;margin:0 auto 5rem;text-align:center;font-family:var(--font-serif);font-size:1.25rem;line-height:2.2;letter-spacing:.04em;text-wrap:pretty;color:var(--ink)}
+.process-intro::before{content:"—";display:block;color:var(--accent);margin-bottom:1.5rem;letter-spacing:0;font-size:1.5rem}
+.process-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:2.5rem;margin-bottom:5rem}
+.step-num{font-family:var(--font-serif);font-size:1.05rem;color:var(--accent);letter-spacing:.15em;margin-bottom:.75rem;font-weight:600}
+.step-title{font-family:var(--font-serif);font-size:1.5rem;font-weight:600;letter-spacing:.1em;margin-bottom:.4rem;color:var(--ink)}
+.step-title-en{font-family:var(--font-latin);font-style:italic;font-size:.95rem;color:var(--soft);letter-spacing:.1em;margin-bottom:1.25rem;padding-bottom:1.25rem;border-bottom:1px solid var(--rule)}
+.step-body{font-size:1rem;line-height:1.95;color:var(--ink);text-wrap:pretty}
+.studio-gallery{display:grid;grid-template-columns:2fr 1fr 1fr;gap:1.5rem;margin-top:3rem}
+.studio-gallery div{aspect-ratio:4/3;border:1px solid var(--rule);position:relative;background:var(--paper)}
+.studio-gallery div::before{
+  content:attr(data-cap);
+  position:absolute;bottom:.75rem;left:.75rem;
+  font-family:'ui-monospace',monospace;font-size:.7rem;color:var(--soft);
+  background:var(--paper);padding:.3rem .55rem;z-index:2;border:1px solid var(--rule);letter-spacing:.1em;
+}
+.studio-gallery div::after{
+  content:"";position:absolute;inset:.5rem;
+  background:repeating-linear-gradient(135deg, color-mix(in srgb, var(--soft) 20%, transparent) 0 1px, transparent 1px 14px), color-mix(in srgb, var(--ink) 15%, var(--paper));
+  border:1px solid color-mix(in srgb, var(--ink) 10%, transparent);
+}
+.studio-gallery div:first-child{grid-row:span 2}
+@media (max-width: 1100px){ .studio-gallery div:first-child{grid-row:auto} }
+
+/* ============ NEWS ============ */
+.news{background:var(--paper)}
+.news-list{display:flex;flex-direction:column}
+.news-item{
+  display:grid;grid-template-columns:8.5rem 7rem 1fr auto;gap:2rem;align-items:center;
+  padding:1.75rem 1rem;border-bottom:1px solid var(--rule);
+  transition:background .2s;cursor:pointer;min-height:60px;
+}
+.news-item:hover{background:color-mix(in srgb, var(--accent) 8%, transparent)}
+.news-item:first-child{border-top:1px solid var(--rule)}
+.news-date{font-family:var(--font-serif);font-size:1.1rem;color:var(--accent);letter-spacing:.05em;font-weight:500}
+.news-cat{font-family:var(--font-serif);font-size:.9rem;letter-spacing:.15em;color:var(--ink);padding:.45rem .8rem;border:1.5px solid var(--rule);text-align:center;white-space:nowrap;background:var(--bg);font-weight:500}
+.news-cat[data-cat="受賞"]{color:var(--paper);border-color:var(--accent);background:var(--accent)}
+.news-title{font-family:var(--font-serif);font-size:1.15rem;letter-spacing:.04em;font-weight:500;line-height:1.6;color:var(--ink)}
+.news-arrow{font-family:var(--font-serif);color:var(--accent);font-size:1.5rem;transition:transform .2s;font-weight:500}
+.news-item:hover .news-arrow{transform:translateX(.5rem)}
+
+/* ============ CONTACT ============ */
+.contact{background:var(--bg);text-align:center}
+.contact-mark{font-family:var(--font-serif);font-size:2.5rem;color:var(--accent);letter-spacing:.4em;margin-bottom:1rem}
+.contact-title{font-family:var(--font-serif);font-size:3rem;letter-spacing:.15em;margin-bottom:.5rem;font-weight:600}
+.contact-en{font-family:var(--font-latin);font-style:italic;color:var(--soft);letter-spacing:.15em;margin-bottom:3rem;font-size:1.2rem}
+.contact-lead{max-width:32em;margin:0 auto 3.5rem;line-height:2.1;text-wrap:pretty;font-size:1.1rem;color:var(--ink)}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:3rem;max-width:900px;margin:0 auto;padding:3rem 0;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.contact-block dt{font-family:var(--font-serif);font-size:1rem;color:var(--accent);letter-spacing:.15em;margin-bottom:.75rem;font-weight:600}
+.contact-block dd{font-family:var(--font-serif);font-size:1.05rem;letter-spacing:.05em;line-height:1.8;color:var(--ink)}
+.contact-form{max-width:560px;margin:4rem auto 0;text-align:left;display:flex;flex-direction:column;gap:1.75rem}
+.field{display:flex;flex-direction:column;gap:.6rem}
+.field label{font-family:var(--font-serif);font-size:1rem;color:var(--ink);letter-spacing:.08em;font-weight:500}
+.field input,.field textarea,.field select{
+  background:var(--paper);border:2px solid var(--rule);padding:.9rem 1rem;
+  font:inherit;color:var(--ink);font-family:var(--font-serif);letter-spacing:.04em;font-size:1.05rem;
+  transition:border-color .2s;min-height:48px;
+}
+.field input:focus,.field textarea:focus,.field select:focus{outline:none;border-color:var(--accent)}
+.field textarea{resize:vertical;min-height:8rem}
+.submit{
+  margin-top:1rem;align-self:center;background:var(--accent);border:2px solid var(--accent);
+  padding:1.1rem 4rem;font-family:var(--font-serif);letter-spacing:.3em;color:var(--paper);
+  cursor:pointer;transition:all .2s;font-size:1.1rem;font-weight:600;min-height:52px;
+}
+.submit:hover{background:var(--ink);border-color:var(--ink)}
+
+/* ============ FOOTER ============ */
+footer{padding:2.5rem var(--pad);border-top:1px solid var(--rule);display:flex;justify-content:space-between;align-items:center;font-size:.95rem;color:var(--soft);letter-spacing:.05em;font-family:var(--font-serif);flex-wrap:wrap;gap:1rem}
+footer .mark{font-family:var(--font-serif);letter-spacing:.25em;color:var(--ink);font-size:1.1rem;font-weight:600}
+
+/* ============ TWEAKS PANEL ============ */
+.tweaks-panel{
+  position:fixed;bottom:1.5rem;right:1.5rem;z-index:200;
+  background:var(--paper);border:1px solid var(--rule);
+  padding:1.5rem;width:280px;
+  font-family:var(--font-body);font-size:.8rem;color:var(--ink);
+  box-shadow:0 8px 24px rgba(0,0,0,.08);
+  display:none;
+}
+.tweaks-panel.show{display:block}
+.tweaks-title{font-family:var(--font-serif);letter-spacing:.4em;font-size:.8rem;padding-bottom:.75rem;border-bottom:1px solid var(--rule);margin-bottom:1rem;display:flex;justify-content:space-between;align-items:center}
+.tweaks-title small{font-family:var(--font-latin);font-style:italic;color:var(--soft);letter-spacing:.2em;font-size:.7rem;text-transform:uppercase}
+.tw-group{margin-bottom:1rem}
+.tw-group > label{display:block;font-family:var(--font-latin);font-style:italic;color:var(--soft);font-size:.7rem;letter-spacing:.25em;text-transform:uppercase;margin-bottom:.5rem}
+.tw-row{display:flex;gap:.3rem;flex-wrap:wrap}
+.tw-opt{
+  flex:1;padding:.5rem .4rem;border:1px solid var(--rule);background:transparent;color:var(--ink);
+  font:inherit;font-size:.75rem;cursor:pointer;transition:all .2s;font-family:var(--font-serif);letter-spacing:.1em;text-align:center;
+  min-width:0;
+}
+.tw-opt:hover{border-color:var(--accent)}
+.tw-opt.active{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.tw-swatch{width:100%;height:1.5rem;margin-top:.3rem;border:1px solid var(--rule)}
+
+/* ornament variants */
+html[data-ornament="minimal"] .section-head{grid-template-columns:1fr;text-align:center}
+html[data-ornament="minimal"] .section-kicker, html[data-ornament="minimal"] .section-num{display:none}
+html[data-ornament="seal"] .section-head::after{
+  content:"啓";position:absolute;right:var(--pad);top:4.5rem;
+  font-family:var(--font-serif);background:var(--accent);color:var(--paper);
+  width:3rem;height:3rem;display:grid;place-items:center;font-size:1.3rem;letter-spacing:0;
+}
+
+/* responsive */
+@media (max-width: 1100px){
+  .hero{grid-template-columns:1fr;padding:8rem 3rem 4rem}
+  .about-grid,.exh-grid{grid-template-columns:1fr}
+  .works-grid{grid-template-columns:repeat(2,1fr) !important}
+  .process-steps{grid-template-columns:repeat(2,1fr)}
+  .contact-grid{grid-template-columns:1fr;gap:2rem}
+  .nav{padding:1rem 1.5rem}
+  .nav-links{display:none}
+  :root{--pad:2rem}
+  .modal{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body data-cc-id="cc-1" style="background-color: rgba(140, 136, 104, 0); cursor: crosshair;">
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-brand">松田 啓<small>Matsuda Hiromu</small></div>
+  <div class="nav-links">
+    <a href="#about" class="active">作家について</a>
+    <a href="#works" class="">作品</a>
+    <a href="#exhibitions" class="">展覧会</a>
+    <a href="#process" class="">アトリエ</a>
+    <a href="#news" class="">お知らせ</a>
+    <a href="#contact" class="">ご連絡</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero" data-screen-label="00 Hero" data-cc-id="cc-6">
+  <div data-cc-id="cc-8">
+    <div class="hero-meta" data-cc-id="cc-5" style="">Oil Painter — Since 2006</div>
+    <h1 class="hero-title" data-cc-id="cc-7" style="">
+      <span class="kana">まつだ　ひろむ</span>
+      松田 啓
+    </h1>
+    <div class="hero-latin">Matsuda Hiromu — Peintre à l'huile</div>
+    <p class="hero-desc">
+      自然の四季がもたらす色彩の豊かさと奥深さを、油彩画を通して追求する。
+      渓谷の水流と木々の色づきに宿る、光と影の響きを描き続けて二十年。
+    </p>
+    <div class="hero-accolade">
+      <div class="hero-accolade-label">Prime Minister's Award · 2025</div>
+      <div class="hero-accolade-title">第64回二元展　内閣総理大臣賞</div>
+      <div class="hero-accolade-sub">受賞作『早秋の渓谷』</div>
+    </div>
+  </div>
+  <div class="hero-art" aria-label="代表作のプレースホルダー">
+    <div class="hero-art-label">早 秋 の 渓 谷</div>
+    <div class="hero-art-cap">[ hero image · oil on canvas 162.1 × 130.3 cm ]</div>
+  </div>
+  <div class="hero-scroll">下へ　／　Scroll</div>
+</header>
+
+<!-- ABOUT -->
+<section class="about" id="about" data-screen-label="01 About">
+  <div class="section-head">
+    <div class="section-num">— 零壱 / 01</div>
+    <h2 class="section-title">作家について<span class="en">About the Artist</span></h2>
+    <div class="section-kicker">Biography</div>
+  </div>
+
+  <div class="about-grid">
+    <div class="about-portrait">
+      <div class="about-portrait-cap">[ portrait · studio 2024 ]</div>
+    </div>
+    <div class="about-body">
+      <p><span class="first-char">自</span>然の四季がもたらす色彩の豊かさと奥深さを、油彩画を通して追求しています。特に「渓谷の水流」と「木々の色づき」に宿る光と影の響きを丁寧に描写し、見る者をその場に誘うような臨場感と表情を表現しています。</p>
+      <p>2006年より榮永大治良教室に入会し、研鑽を積む。以後、二元会を中心に作品を発表し、近年は兵庫県知事賞、内閣総理大臣賞を受賞。現在は兵庫県を拠点に、渓谷や山間の自然を題材とした大作に取り組んでいる。</p>
+      <dl class="about-affil">
+        <div class="about-affil-row"><dt>Title</dt><dd>油彩画家 ／ Oil Painter</dd></div>
+        <div class="about-affil-row"><dt>Society</dt><dd>二元会 委員</dd></div>
+        <div class="about-affil-row"><dt>Member</dt><dd>日本美術家連盟 会員</dd></div>
+        <div class="about-affil-row"><dt>Since</dt><dd>榮永大治良教室 2006 —</dd></div>
+      </dl>
+    </div>
+  </div>
+
+  <div class="awards">
+    <div class="awards-title">— 主 な 受 賞 歴 —</div>
+    <div class="award featured">
+      <div class="award-year">2025</div>
+      <div class="award-title">内閣総理大臣賞 ／ 第64回二元展<span class="work">早秋の渓谷</span></div>
+      <div class="award-badge">Prime Minister's Award</div>
+    </div>
+    <div class="award">
+      <div class="award-year">2024</div>
+      <div class="award-title">兵庫県知事賞 ／ 第63回二元展<span class="work">秋色の清流</span></div>
+      <div class="award-badge">Governor's Award</div>
+    </div>
+    <div class="award">
+      <div class="award-year">2022</div>
+      <div class="award-title">二元会努力賞 ／ 第61回二元展<span class="work">秋の渓谷</span></div>
+      <div class="award-badge">Merit Prize</div>
+    </div>
+  </div>
+</section>
+
+<!-- WORKS -->
+<section class="works" id="works" data-screen-label="02 Works">
+  <div class="section-head">
+    <div class="section-num">— 零弐 / 02</div>
+    <h2 class="section-title">作品ギャラリー<span class="en">Selected Works</span></h2>
+    <div class="section-kicker">Oil on Canvas</div>
+  </div>
+
+  <div class="works-filter">
+    <button class="active" data-filter="all">すべて<span class="count">12</span></button>
+    <button data-filter="valley">渓谷<span class="count">05</span></button>
+    <button data-filter="autumn">秋景<span class="count">04</span></button>
+    <button data-filter="water">水流<span class="count">03</span></button>
+  </div>
+
+  <div class="works-grid" id="worksGrid"><div class="work" data-orient="wide" data-id="1">
+      <div class="work-thumb">
+        <span class="work-num">No. 01</span>
+        <div class="work-thumb-art" style="--g-a:#b77d3c;--g-b:#5a4a26;--g-c:#1e1a14"></div>
+      </div>
+      <div class="work-caption">
+        <div class="work-title">早秋の渓谷</div>
+        <div class="work-meta"><span>油彩 · キャンバス</span><span>2025</span></div>
+      </div></div><div class="work" data-orient="portrait" data-id="2">
+      <div class="work-thumb">
+        <span class="work-num">No. 02</span>
+        <div class="work-thumb-art" style="--g-a:#c76b2a;--g-b:#6e3820;--g-c:#1a1410"></div>
+      </div>
+      <div class="work-caption">
+        <div class="work-title">秋色の清流</div>
+        <div class="work-meta"><span>油彩 · キャンバス</span><span>2024</span></div>
+      </div></div><div class="work" data-orient="wide" data-id="3">
+      <div class="work-thumb">
+        <span class="work-num">No. 03</span>
+        <div class="work-thumb-art" style="--g-a:#a05a30;--g-b:#4a4028;--g-c:#1a1612"></div>
+      </div>
+      <div class="work-caption">
+        <div class="work-title">秋の渓谷</div>
+        <div class="work-meta"><span>油彩 · キャンバス</span><span>2022</span></div>
+      </div></div><div class="work" data-orient="sq" data-id="4">
+      <div class="work-thumb">
+        <span class="work-num">No. 04</span>
+        <div class="work-thumb-art" style="--g-a:#3c5a4a;--g-b:#1f332a;--g-c:#0f1a14"></div>
+      </div>
+      <div class="work-caption">
+        <div class="work-title">碧の渕</div>
+        <div class="work-meta"><span>油彩 · キャンバス</span><span>2023</span></div>
+      </div></div><div class="work" data-orient="portrait" data-id="5">
+      <div class="work-thumb">
+        <span class="work-num">No. 05</span>
+        <div class="work-thumb-art" style="--g-a:#6b8c6a;--g-b:#3a5240;--g-c:#1a2418"></div>
+      </div>
+      <div class="work-caption">
+        <div class="work-title">初夏の瀬</div>
+        <div class="work-meta"><span>油彩 · キャンバス</span><span>2023</span></div>
+      </div></div><div class="work" data-orient="portrait" data-id="6">
+      <div class="work-thumb">
+        <span class="work-num">No. 06</span>
+        <div class="work-thumb-art" style="--g-a:#9c3a2a;--g-b:#5a2418;--g-c:#1f120e"></div>
+      </div>
+      <div class="work-caption">
+        <div class="work-title">紅葉せし路</div>
+        <div class="work-meta"><span>油彩 · キャンバス</span><span>2022</span></div>
+      </div></div><div class="work" data-orient="wide" data-id="7">
+      <div class="work-thumb">
+        <span class="work-num">No. 07</span>
+        <div class="work-thumb-art" style="--g-a:#8a9ba4;--g-b:#4a5860;--g-c:#1a2228"></div>
+      </div>
+      <div class="work-caption">
+        <div class="work-title">氷結の谷</div>
+        <div class="work-meta"><span>油彩 · キャンバス</span><span>2021</span></div>
+      </div></div><div class="work" data-orient="sq" data-id="8">
+      <div class="work-thumb">
+        <span class="work-num">No. 08</span>
+        <div class="work-thumb-art" style="--g-a:#a66b38;--g-b:#5a3a1e;--g-c:#1f1812"></div>
+      </div>
+      <div class="work-caption">
+        <div class="work-title">晩秋の樹</div>
+        <div class="work-meta"><span>油彩 · キャンバス</span><span>2024</span></div>
+      </div></div></div>
+
+  <div class="works-more"><a href="#">すべての作品を見る　—　View All Works</a></div>
+</section>
+
+<!-- EXHIBITIONS -->
+<section class="exhibitions" id="exhibitions" data-screen-label="03 Exhibitions">
+  <div class="section-head">
+    <div class="section-num">— 零参 / 03</div>
+    <h2 class="section-title">個展・展覧会<span class="en">Exhibitions</span></h2>
+    <div class="section-kicker">2018 — 2026</div>
+  </div>
+
+  <div class="exh-grid">
+    <div class="exh-col">
+      <h4>団 体 展　Group Exhibitions</h4>
+      <div class="exh-item"><div class="exh-year">2025</div><div class="exh-body"><span class="title">第64回 二元展</span><span class="venue">国立新美術館 ／ 東京 六本木</span></div></div>
+      <div class="exh-item"><div class="exh-year">2024</div><div class="exh-body"><span class="title">第63回 二元展</span><span class="venue">国立新美術館 ／ 東京 六本木</span></div></div>
+      <div class="exh-item"><div class="exh-year">2023</div><div class="exh-body"><span class="title">第62回 二元展</span><span class="venue">国立新美術館 ／ 東京 六本木</span></div></div>
+      <div class="exh-item"><div class="exh-year">2022</div><div class="exh-body"><span class="title">第61回 二元展</span><span class="venue">国立新美術館 ／ 東京 六本木</span></div></div>
+      <div class="exh-item"><div class="exh-year">2021</div><div class="exh-body"><span class="title">兵庫県美術家連盟展</span><span class="venue">兵庫県立美術館 ／ 神戸</span></div></div>
+      <div class="exh-item"><div class="exh-year">2019</div><div class="exh-body"><span class="title">関西美術院 秋季展</span><span class="venue">京都市美術館 別館</span></div></div>
+    </div>
+    <div class="exh-col">
+      <h4>個 展　Solo Exhibitions</h4>
+      <div class="exh-item"><div class="exh-year">2026</div><div class="exh-body"><span class="title">渓流の譜　— 松田啓 油彩展 —</span><span class="venue">ギャラリー小暮 ／ 神戸 元町　予定</span></div></div>
+      <div class="exh-item"><div class="exh-year">2023</div><div class="exh-body"><span class="title">水と光の四季</span><span class="venue">阪急うめだ本店 美術画廊</span></div></div>
+      <div class="exh-item"><div class="exh-year">2020</div><div class="exh-body"><span class="title">秋色の譜　松田啓 油彩展</span><span class="venue">ギャラリー小暮 ／ 神戸 元町</span></div></div>
+      <div class="exh-item"><div class="exh-year">2018</div><div class="exh-body"><span class="title">渓谷を描く</span><span class="venue">姫路市立美術館 市民ギャラリー</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS / STUDIO -->
+<section class="process" id="process" data-screen-label="04 Process">
+  <div class="section-head">
+    <div class="section-num">— 零肆 / 04</div>
+    <h2 class="section-title">制作の過程<span class="en">Process &amp; Studio</span></h2>
+    <div class="section-kicker">In the Atelier</div>
+  </div>
+
+  <p class="process-intro">
+    一枚の絵は、一度の邂逅から始まる。渓を訪れ、光を見、水の匂いを記憶に刻む。
+    アトリエに戻り、幾層もの油と顔料を積み重ねるうちに、その日の空気が画布に立ち上がってくる。
+  </p>
+
+  <div class="process-steps">
+    <div class="step">
+      <div class="step-num">— i. 邂逅</div>
+      <div class="step-title">取材</div>
+      <div class="step-title-en">Encountering the Site</div>
+      <div class="step-body">季節ごとに渓谷を訪れ、水音や光の角度を素描と写真に収める。題材は必ず自ら足を運んだ場所のみを選ぶ。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">— ii. 構想</div>
+      <div class="step-title">下絵</div>
+      <div class="step-title-en">Composition</div>
+      <div class="step-body">木炭で構図を練り、色面の強弱と視線の流れを検討する。一枚の大作に向け十数枚の習作を重ねる。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">— iii. 下塗</div>
+      <div class="step-title">地塗り</div>
+      <div class="step-title-en">Underpainting</div>
+      <div class="step-body">温色の地で画面全体の光量を決める。乾燥を待ちながら、岩肌と水面の量感を徐々に起こしていく。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">— iv. 仕上</div>
+      <div class="step-title">重色</div>
+      <div class="step-title-en">Glazing &amp; Finish</div>
+      <div class="step-body">幾層もの透明色を重ね、水の透明感と紅葉の深みを醸成する。最後に白と群青で光を置き、筆を収める。</div>
+    </div>
+  </div>
+
+  <div class="studio-gallery">
+    <div data-cap="[ atelier · west light ]"></div>
+    <div data-cap="[ palette ]"></div>
+    <div data-cap="[ sketchbook ]"></div>
+    <div data-cap="[ field study · autumn ]"></div>
+    <div data-cap="[ brushes &amp; linseed ]"></div>
+  </div>
+</section>
+
+<!-- NEWS -->
+<section class="news" id="news" data-screen-label="05 News">
+  <div class="section-head">
+    <div class="section-num">— 零伍 / 05</div>
+    <h2 class="section-title">お知らせ<span class="en">News &amp; Announcements</span></h2>
+    <div class="section-kicker">Latest</div>
+  </div>
+
+  <div class="news-list">
+    <div class="news-item">
+      <div class="news-date">2026.04.10</div>
+      <div class="news-cat">制作中</div>
+      <div class="news-title">新作『春の渓』制作中　—　次回個展に向けて F100 号に着手しました</div>
+      <div class="news-arrow">→</div>
+    </div>
+    <div class="news-item">
+      <div class="news-date">2026.02.18</div>
+      <div class="news-cat">個展</div>
+      <div class="news-title">個展「渓流の譜」2026年秋　ギャラリー小暮にて開催決定</div>
+      <div class="news-arrow">→</div>
+    </div>
+    <div class="news-item">
+      <div class="news-date">2025.11.03</div>
+      <div class="news-cat" data-cat="受賞">受賞</div>
+      <div class="news-title">第64回二元展にて『早秋の渓谷』が内閣総理大臣賞を受賞いたしました</div>
+      <div class="news-arrow">→</div>
+    </div>
+    <div class="news-item">
+      <div class="news-date">2025.09.20</div>
+      <div class="news-cat">取材</div>
+      <div class="news-title">美術誌『アトリエ』2025年11月号に取材記事が掲載されます</div>
+      <div class="news-arrow">→</div>
+    </div>
+    <div class="news-item">
+      <div class="news-date">2025.08.05</div>
+      <div class="news-cat">出品</div>
+      <div class="news-title">第64回二元展に『早秋の渓谷』（F130号）を出品いたします</div>
+      <div class="news-arrow">→</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact" data-screen-label="06 Contact">
+  <div class="contact-mark">— 印 —</div>
+  <h2 class="contact-title">ご 連 絡</h2>
+  <div class="contact-en">Contact &amp; Inquiries</div>
+  <p class="contact-lead">
+    作品のご購入・取材・展覧会出品のご依頼は、下記までお気軽にご連絡ください。
+    個人蒐集家の方へのアトリエ公開も承っております。
+  </p>
+
+  <dl class="contact-grid">
+    <div class="contact-block"><dt>Studio</dt><dd>〒650-00XX<br>兵庫県神戸市中央区<br>（詳細はご連絡の上）</dd></div>
+    <div class="contact-block"><dt>Email</dt><dd>studio@matsuda-hiromu.jp</dd></div>
+    <div class="contact-block"><dt>Representation</dt><dd>ギャラリー小暮<br>神戸市元町</dd></div>
+  </dl>
+
+  <form class="contact-form" onsubmit="event.preventDefault();alert('お問い合わせを受け付けました（デモ）');">
+    <div class="field"><label>お名前 · Name</label><input type="text" required=""></div>
+    <div class="field"><label>ご連絡先 · Email</label><input type="email" required=""></div>
+    <div class="field"><label>ご用件 · Subject</label>
+      <select>
+        <option>作品の購入について</option>
+        <option>取材・掲載依頼</option>
+        <option>展覧会出品依頼</option>
+        <option>アトリエ訪問</option>
+        <option>その他</option>
+      </select>
+    </div>
+    <div class="field"><label>ご用件詳細 · Message</label><textarea rows="4"></textarea></div>
+    <button class="submit" type="submit">送　信</button>
+  </form>
+</section>
+
+<footer>
+  <div class="mark">松 田 啓</div>
+  <div>© 2026 Matsuda Hiromu · Oil Painter · All works reserved</div>
+  <div>Kobe, Japan</div>
+</footer>
+
+<!-- MODAL -->
+<div class="modal-back" id="modalBack">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">×</button>
+    <div class="modal-art"><div class="modal-art-inner" id="modalArt"></div></div>
+    <div class="modal-info">
+      <div class="modal-num" id="modalNum"></div>
+      <h3 class="modal-title" id="modalTitle"></h3>
+      <div class="modal-title-en" id="modalTitleEn"></div>
+      <div class="modal-specs">
+        <dl><dt>Year</dt><dd id="modalYear"></dd></dl>
+        <dl><dt>Medium</dt><dd id="modalMedium"></dd></dl>
+        <dl><dt>Size</dt><dd id="modalSize"></dd></dl>
+        <dl><dt>Exhibition</dt><dd id="modalExh"></dd></dl>
+      </div>
+      <p class="modal-desc" id="modalDesc"></p>
+      <div class="modal-nav">
+        <button onclick="navModal(-1)">← 前作</button>
+        <button onclick="navModal(1)">次作 →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TWEAKS PANEL -->
+<div class="tweaks-panel show" id="tweaksPanel">
+  <div class="tweaks-title">Tweaks<small>意匠</small></div>
+  <div class="tw-group">
+    <label>配色 · Palette</label>
+    <div class="tw-row" id="twPalette"><button class="tw-opt" data-value="washi">和紙</button><button class="tw-opt active" data-value="sumi">墨</button><button class="tw-opt" data-value="gofun">胡粉</button><button class="tw-opt" data-value="seiji">青磁</button><button class="tw-opt" data-value="shu">朱土</button></div>
+  </div>
+  <div class="tw-group">
+    <label>書体 · Typography</label>
+    <div class="tw-row" id="twTypo"><button class="tw-opt active" data-value="mincho">明朝</button><button class="tw-opt" data-value="gothic">ゴシック</button><button class="tw-opt" data-value="mix">混植</button></div>
+  </div>
+  <div class="tw-group">
+    <label>グリッド密度 · Density</label>
+    <div class="tw-row" id="twDensity"><button class="tw-opt active" data-value="airy">疎</button><button class="tw-opt" data-value="regular">中</button><button class="tw-opt" data-value="dense">密</button></div>
+  </div>
+  <div class="tw-group">
+    <label>装飾 · Ornament</label>
+    <div class="tw-row" id="twOrnament"><button class="tw-opt" data-value="ruled">罫線</button><button class="tw-opt" data-value="seal">落款</button><button class="tw-opt active" data-value="minimal">無飾</button></div>
+  </div>
+</div>
+
+<script>
+/* ============= WORKS DATA ============= */
+const WORKS = [
+  { id:1, title:"早秋の渓谷", en:"Ravine in Early Autumn", year:2025, size:"F130号 · 162.1 × 194.0 cm", medium:"油彩 · キャンバス", exh:"第64回二元展　内閣総理大臣賞", tag:["valley","autumn","water"], orient:"wide",
+    palette:["#b77d3c","#5a4a26","#1e1a14"], desc:"初秋の渓、岩肌を伝う清水と色づき始めた木々。朝霧が上がるわずかな時間帯の、光の粒立ちを捉えた代表作。" },
+  { id:2, title:"秋色の清流", en:"Autumn Current", year:2024, size:"F100号 · 130.3 × 162.1 cm", medium:"油彩 · キャンバス", exh:"第63回二元展　兵庫県知事賞", tag:["valley","autumn","water"], orient:"portrait",
+    palette:["#c76b2a","#6e3820","#1a1410"], desc:"紅葉の最盛期、流れを跨ぐ一筋の陽光。水中の石と紅葉の残像を、透明層と不透明層で層状に構成。" },
+  { id:3, title:"秋の渓谷", en:"Autumn Ravine", year:2022, size:"F80号 · 112.0 × 145.5 cm", medium:"油彩 · キャンバス", exh:"第61回二元展　二元会努力賞", tag:["valley","autumn"], orient:"wide",
+    palette:["#a05a30","#4a4028","#1a1612"], desc:"奥行のある渓を俯瞰した構図。画家のキャリア初期の代表作にして、渓谷シリーズの出発点。" },
+  { id:4, title:"碧の渕", en:"The Deep Green Pool", year:2023, size:"F50号 · 91.0 × 116.8 cm", medium:"油彩 · キャンバス", exh:"第62回二元展", tag:["valley","water"], orient:"sq",
+    palette:["#3c5a4a","#1f332a","#0f1a14"], desc:"苔むした岩に囲まれた淀み。水面の反射と深みに差し込む緑の光。" },
+  { id:5, title:"初夏の瀬", en:"Early Summer Rapids", year:2023, size:"F30号 · 72.7 × 91.0 cm", medium:"油彩 · キャンバス", exh:"個展「水と光の四季」", tag:["water"], orient:"portrait",
+    palette:["#6b8c6a","#3a5240","#1a2418"], desc:"青葉の季、勢いを増した流れを鋭い筆致で。水飛沫に白を厚く置き、瞬間の動を定着。" },
+  { id:6, title:"紅葉せし路", en:"Path in Crimson", year:2022, size:"F30号 · 72.7 × 91.0 cm", medium:"油彩 · キャンバス", exh:"個展「秋色の譜」", tag:["autumn"], orient:"portrait",
+    palette:["#9c3a2a","#5a2418","#1f120e"], desc:"山道を染める楓。足もとの落葉に陽が差し込む静かな瞬間。" },
+  { id:7, title:"氷結の谷", en:"Frozen Valley", year:2021, size:"F50号 · 91.0 × 116.8 cm", medium:"油彩 · キャンバス", exh:"二元会 秋季展", tag:["valley"], orient:"wide",
+    palette:["#8a9ba4","#4a5860","#1a2228"], desc:"厳冬の渓。凍結した水面に映る灰色の空と、岩肌の薄氷の輝き。" },
+  { id:8, title:"晩秋の樹", en:"Late Autumn Grove", year:2024, size:"F20号 · 60.6 × 72.7 cm", medium:"油彩 · キャンバス", exh:"—", tag:["autumn"], orient:"sq",
+    palette:["#a66b38","#5a3a1e","#1f1812"], desc:"落葉間近の林。枝の骨格に残る僅かな赤と、冷たい空気の透明感。" },
+];
+
+/* ============= RENDER ============= */
+function cssGrad(p){ return `--g-a:${p[0]};--g-b:${p[1]};--g-c:${p[2]}` }
+
+function renderWorks(filter="all"){
+  const grid = document.getElementById('worksGrid');
+  grid.innerHTML = "";
+  WORKS.filter(w => filter==="all" || w.tag.includes(filter)).forEach((w,i)=>{
+    const el = document.createElement('div');
+    el.className = 'work';
+    el.dataset.orient = w.orient;
+    el.dataset.id = w.id;
+    el.innerHTML = `
+      <div class="work-thumb">
+        <span class="work-num">No. ${String(w.id).padStart(2,'0')}</span>
+        <div class="work-thumb-art" style="${cssGrad(w.palette)}"></div>
+      </div>
+      <div class="work-caption">
+        <div class="work-title">${w.title}</div>
+        <div class="work-meta"><span>${w.medium}</span><span>${w.year}</span></div>
+      </div>`;
+    el.addEventListener('click', ()=>openModal(w.id));
+    grid.appendChild(el);
+  });
+}
+
+/* ============= MODAL ============= */
+let currentModalId = null;
+function openModal(id){
+  currentModalId = id;
+  const w = WORKS.find(x => x.id === id);
+  if(!w) return;
+  document.getElementById('modalNum').textContent = `No. ${String(w.id).padStart(2,'0')} / ${WORKS.length}`;
+  document.getElementById('modalTitle').textContent = w.title;
+  document.getElementById('modalTitleEn').textContent = w.en;
+  document.getElementById('modalYear').textContent = w.year;
+  document.getElementById('modalMedium').textContent = w.medium;
+  document.getElementById('modalSize').textContent = w.size;
+  document.getElementById('modalExh').textContent = w.exh;
+  document.getElementById('modalDesc').textContent = w.desc;
+  const art = document.getElementById('modalArt');
+  art.style.cssText = cssGrad(w.palette);
+  document.getElementById('modalBack').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal(){
+  document.getElementById('modalBack').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function navModal(d){
+  const idx = WORKS.findIndex(x => x.id === currentModalId);
+  const next = (idx + d + WORKS.length) % WORKS.length;
+  openModal(WORKS[next].id);
+}
+document.getElementById('modalBack').addEventListener('click', e => { if(e.target.id === 'modalBack') closeModal(); });
+document.addEventListener('keydown', e => {
+  if(document.getElementById('modalBack').classList.contains('open')){
+    if(e.key === 'Escape') closeModal();
+    if(e.key === 'ArrowLeft') navModal(-1);
+    if(e.key === 'ArrowRight') navModal(1);
+  }
+});
+
+/* filters */
+document.querySelectorAll('.works-filter button').forEach(b => {
+  b.addEventListener('click', () => {
+    document.querySelectorAll('.works-filter button').forEach(x => x.classList.remove('active'));
+    b.classList.add('active');
+    renderWorks(b.dataset.filter);
+  });
+});
+
+/* ============= SCROLL SPY ============= */
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-links a');
+window.addEventListener('scroll', () => {
+  const y = window.scrollY + 160;
+  let current = sections[0]?.id;
+  sections.forEach(s => { if(s.offsetTop <= y) current = s.id; });
+  navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + current));
+});
+
+/* ============= TWEAKS UI ============= */
+function buildTweakButton(group, key, opts, labels){
+  const host = document.getElementById(group);
+  host.innerHTML = "";
+  opts.forEach(o => {
+    const btn = document.createElement('button');
+    btn.className = 'tw-opt';
+    btn.dataset.value = o;
+    btn.textContent = labels[o];
+    btn.addEventListener('click', () => {
+      applyTweaks({ [key]: o });
+      updateTweakUI();
+      window.parent.postMessage({type:'__edit_mode_set_keys', edits:{ [key]: o }}, '*');
+    });
+    host.appendChild(btn);
+  });
+}
+function updateTweakUI(){
+  document.querySelectorAll('#twPalette .tw-opt').forEach(b => b.classList.toggle('active', b.dataset.value === currentTweaks.palette));
+  document.querySelectorAll('#twTypo .tw-opt').forEach(b => b.classList.toggle('active', b.dataset.value === currentTweaks.typography));
+  document.querySelectorAll('#twDensity .tw-opt').forEach(b => b.classList.toggle('active', b.dataset.value === currentTweaks.density));
+  document.querySelectorAll('#twOrnament .tw-opt').forEach(b => b.classList.toggle('active', b.dataset.value === currentTweaks.ornament));
+}
+buildTweakButton('twPalette','palette',['sumi','shikkoku','konjo','tetsusabi','kogecha','washi','gofun'],{sumi:"墨",shikkoku:"漆黒",konjo:"紺青",tetsusabi:"鉄錆",kogecha:"焦茶",washi:"和紙",gofun:"胡粉"});
+buildTweakButton('twTypo','typography',['mincho','gothic','mix'],{mincho:"明朝",gothic:"ゴシック",mix:"混植"});
+buildTweakButton('twDensity','density',['airy','regular','dense'],{airy:"疎",regular:"中",dense:"密"});
+buildTweakButton('twOrnament','ornament',['ruled','seal','minimal'],{ruled:"罫線",seal:"落款",minimal:"無飾"});
+
+/* ============= INIT ============= */
+applyTweaks({});
+updateTweakUI();
+renderWorks();
+
+/* ============= EDIT MODE PROTOCOL ============= */
+window.addEventListener('message', (e) => {
+  const d = e.data;
+  if(!d || !d.type) return;
+  if(d.type === '__activate_edit_mode') document.getElementById('tweaksPanel').classList.add('show');
+  if(d.type === '__deactivate_edit_mode') document.getElementById('tweaksPanel').classList.remove('show');
+});
+window.parent.postMessage({type:'__edit_mode_available'}, '*');
+</script>
+
+
+
+</body></html>

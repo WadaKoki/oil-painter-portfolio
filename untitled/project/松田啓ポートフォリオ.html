@@ -1,0 +1,908 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>松田 啓 — 油彩画家</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@300;400;500;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Shippori+Mincho:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<script>
+/* ================== TWEAKS ================== */
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "palette": "souden",
+  "typography": "mincho",
+  "density": "regular",
+  "ornament": "minimal"
+}/*EDITMODE-END*/;
+
+const PALETTES = {
+  washi:   { bg:"#f2ede3", paper:"#f7f3ea", ink:"#1b1814", soft:"#6b6258", rule:"#cfc6b5", accent:"#9b3a2a", label:"和紙" },
+  sumi:    { bg:"#0f0d0b", paper:"#15120f", ink:"#e9dfc8", soft:"#9b9388", rule:"#3a342b", accent:"#c79a4a", label:"墨" },
+  gofun:   { bg:"#fafafa", paper:"#ffffff", ink:"#111111", soft:"#6a6a6a", rule:"#dedede", accent:"#111111", label:"胡粉" },
+  seiji:   { bg:"#e6ece6", paper:"#eff3ec", ink:"#1c2420", soft:"#5f6c66", rule:"#bcc7bd", accent:"#3e5d4d", label:"青磁" },
+  shu:     { bg:"#f3e8df", paper:"#f8efe6", ink:"#2a1410", soft:"#7a5045", rule:"#d8b7a4", accent:"#8a2a1b", label:"朱土" },
+  usuzumi: { bg:"#ececea", paper:"#f5f5f3", ink:"#1c1c1c", soft:"#555555", rule:"#c2c2be", accent:"#3a3a3a", label:"薄墨" },
+  haiiro:  { bg:"#dcdcd8", paper:"#e8e8e4", ink:"#222222", soft:"#4a4a48", rule:"#b0b0ac", accent:"#2a2a2a", label:"灰色" },
+  kinari:    { bg:"#f5efe0", paper:"#fbf6e8", ink:"#2a2416", soft:"#6b5f44", rule:"#d6c8a5", accent:"#8a6a2a", label:"生成り" },
+  shironeri: { bg:"#f2ebd8", paper:"#f8f2df", ink:"#2a2314", soft:"#6b5f42", rule:"#d4c6a0", accent:"#7a5a24", label:"白練" },
+  souden:    { bg:"#efe5cf", paper:"#f6ecd6", ink:"#2a1f10", soft:"#6e5a3a", rule:"#cdbc94", accent:"#8c5a24", label:"色白" },
+  rakuda:    { bg:"#ead9b8", paper:"#f2e3c5", ink:"#2a2012", soft:"#6e593a", rule:"#c6a875", accent:"#8c5a2a", label:"駱駝" },
+  kohaku:    { bg:"#f0dfba", paper:"#f7e7c5", ink:"#2a1d0e", soft:"#6e5430", rule:"#d4b278", accent:"#a86a1e", label:"琥珀" },
+  usuki:     { bg:"#f5e6c2", paper:"#fcefd0", ink:"#2a1f10", soft:"#6e5a32", rule:"#d8bf82", accent:"#b07a20", label:"薄黄" },
+  kuchiba:   { bg:"#e8d6b0", paper:"#efdeba", ink:"#281a10", soft:"#6e502e", rule:"#c8a878", accent:"#9c5822", label:"朱朱花" },
+  kogare:    { bg:"#ecd5b4", paper:"#f3debe", ink:"#2a1610", soft:"#6e4832", rule:"#cc9e7a", accent:"#a84824", label:"浅朱" },
+  kobicha:   { bg:"#dfc9a4", paper:"#e7d2af", ink:"#241510", soft:"#6b4a2e", rule:"#bc9766", accent:"#8a4a1a", label:"浅茶" },
+  sakura:    { bg:"#f5ecea", paper:"#fcf4f2", ink:"#2a1a1a", soft:"#6b4a48", rule:"#d8bab5", accent:"#a04a48", label:"淡桜" },
+  sora:      { bg:"#e8eef2", paper:"#f2f6f9", ink:"#15222e", soft:"#455b6e", rule:"#b0c2d0", accent:"#3a5a78", label:"淡空" }
+};
+
+const TYPOGRAPHY = {
+  mincho:   { serif:'"Shippori Mincho","Noto Serif JP",serif', latin:'"Cormorant Garamond", serif', body:'"Noto Serif JP", serif', label:"明朝" },
+  gothic:   { serif:'"Noto Sans JP", sans-serif', latin:'"Cormorant Garamond", serif', body:'"Noto Sans JP", sans-serif', label:"ゴシック" },
+  mix:      { serif:'"Shippori Mincho", serif', latin:'"Cormorant Garamond", serif', body:'"Noto Sans JP", sans-serif', label:"明朝＋ゴシック" }
+};
+
+const DENSITIES = {
+  airy:    { pad: "10rem", gap:"5rem",   cols:2, label:"ゆったり" },
+  regular: { pad: "6.5rem", gap:"3.25rem", cols:3, label:"標準" },
+  dense:   { pad: "4rem",  gap:"1.75rem", cols:4, label:"密" }
+};
+
+let currentTweaks = { ...TWEAK_DEFAULTS };
+
+function applyTweaks(t){
+  currentTweaks = { ...currentTweaks, ...t };
+  const p = PALETTES[currentTweaks.palette] || PALETTES.washi;
+  const tp = TYPOGRAPHY[currentTweaks.typography] || TYPOGRAPHY.mincho;
+  const d = DENSITIES[currentTweaks.density] || DENSITIES.regular;
+  const r = document.documentElement.style;
+  r.setProperty('--bg', p.bg);
+  r.setProperty('--paper', p.paper);
+  r.setProperty('--ink', p.ink);
+  r.setProperty('--soft', p.soft);
+  r.setProperty('--rule', p.rule);
+  r.setProperty('--accent', p.accent);
+  r.setProperty('--font-serif', tp.serif);
+  r.setProperty('--font-latin', tp.latin);
+  r.setProperty('--font-body', tp.body);
+  r.setProperty('--pad', d.pad);
+  r.setProperty('--gap', d.gap);
+  r.setProperty('--cols', d.cols);
+  document.documentElement.dataset.palette = currentTweaks.palette;
+  document.documentElement.dataset.ornament = currentTweaks.ornament;
+}
+</script>
+
+<style>
+:root{
+  --bg:#f2ede3; --paper:#f7f3ea; --ink:#1b1814; --soft:#6b6258;
+  --rule:#cfc6b5; --accent:#9b3a2a;
+  --font-serif:'"Shippori Mincho","Noto Serif JP",serif';
+  --font-latin:'Cormorant Garamond, serif';
+  --font-body:'"Noto Serif JP",serif';
+  --pad:6.5rem; --gap:3.25rem; --cols:3;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--ink);font-family:var(--font-body);font-weight:400;line-height:1.8;-webkit-font-smoothing:antialiased}
+body{font-feature-settings:"palt" 1;letter-spacing:.04em}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+
+/* ============ TOP NAV ============ */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:50;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:1.5rem 2.5rem;
+  background:color-mix(in srgb, var(--bg) 85%, transparent);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid color-mix(in srgb, var(--rule) 60%, transparent);
+}
+.nav-brand{font-family:var(--font-serif);font-size:.95rem;letter-spacing:.3em}
+.nav-brand small{display:block;font-family:var(--font-latin);font-style:italic;font-size:.7rem;letter-spacing:.15em;color:var(--soft);margin-top:2px}
+.nav-links{display:flex;gap:2.25rem;font-family:var(--font-latin);font-size:.8rem;letter-spacing:.25em;text-transform:uppercase;color:var(--soft)}
+.nav-links a{position:relative;padding:.25rem 0;transition:color .3s}
+.nav-links a:hover{color:var(--ink)}
+.nav-links a::after{content:"";position:absolute;left:50%;bottom:-2px;width:0;height:1px;background:var(--accent);transition:all .4s}
+.nav-links a:hover::after{left:0;width:100%}
+.nav-links a.active{color:var(--ink)}
+.nav-links a.active::after{left:0;width:100%;background:var(--accent)}
+
+/* ============ HERO ============ */
+.hero{
+  position:relative;min-height:100vh;
+  padding: 10rem var(--pad) 6rem;
+  display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;
+  overflow:hidden;
+}
+.hero::before{
+  content:"作";position:absolute;right:-2rem;bottom:-6rem;
+  font-family:var(--font-serif);font-size:38rem;line-height:1;
+  color:var(--ink);opacity:.025;pointer-events:none;font-weight:500;
+}
+.hero-meta{font-family:var(--font-latin);font-style:italic;font-size:.85rem;letter-spacing:.2em;color:var(--soft);margin-bottom:2.5rem;display:flex;align-items:center;gap:1rem}
+.hero-meta::before{content:"";display:inline-block;width:2rem;height:1px;background:var(--accent)}
+.hero-title{
+  font-family:var(--font-serif);font-weight:500;
+  font-size:clamp(1.75rem, 3vw, 2.75rem);line-height:1.2;letter-spacing:.08em;
+  margin-bottom:1rem;
+}
+.hero-title .kana{display:block;font-size:.42em;letter-spacing:.3em;color:var(--soft);font-weight:300;margin-bottom:.4rem}
+.hero-latin{font-family:var(--font-latin);font-style:italic;font-weight:300;font-size:1rem;color:var(--soft);letter-spacing:.15em;margin-bottom:2rem}
+.hero-desc{font-size:1rem;line-height:2.1;max-width:28em;color:var(--ink);margin-bottom:3rem;text-wrap:pretty}
+.hero-accolade{
+  padding:1.5rem 1.75rem;border:1px solid var(--rule);
+  background:var(--paper);display:inline-block;max-width:32em;
+}
+.hero-accolade-label{font-family:var(--font-latin);font-size:.7rem;letter-spacing:.3em;text-transform:uppercase;color:var(--accent);margin-bottom:.5rem}
+.hero-accolade-title{font-family:var(--font-serif);font-size:1.1rem;font-weight:500;line-height:1.6}
+.hero-accolade-sub{font-size:.8rem;color:var(--soft);margin-top:.4rem;letter-spacing:.1em}
+
+/* hero image placeholder (oil-painting stand-in) */
+.hero-art{
+  position:relative;aspect-ratio:4/5;
+  background:var(--paper);
+  border:1px solid var(--rule);
+  display:flex;align-items:flex-end;justify-content:flex-start;
+  padding:2rem;
+}
+.hero-art::before{
+  content:"";position:absolute;inset:1.25rem;
+  background-image:url('images/aki-no-keiryu.jpg');
+  background-size:cover;background-position:center;
+  border:1px solid color-mix(in srgb, var(--ink) 8%, transparent);
+}
+.hero-art::after{
+  content:"";position:absolute;inset:1.25rem;pointer-events:none;
+  background:repeating-linear-gradient(135deg, color-mix(in srgb,#000 8%, transparent) 0 1px, transparent 1px 14px);
+  mix-blend-mode:overlay;opacity:.4;
+}
+.hero-art-cap{
+  position:relative;z-index:1;font-family:'ui-monospace', monospace;
+  font-size:.7rem;letter-spacing:.1em;color:var(--soft);
+  background:color-mix(in srgb, var(--paper) 92%, transparent);
+  padding:.5rem .75rem;border:1px solid var(--rule);
+}
+.hero-art-label{
+  position:absolute;top:1.25rem;right:1.25rem;z-index:2;
+  writing-mode:vertical-rl;text-orientation:mixed;
+  font-family:var(--font-serif);font-size:.9rem;letter-spacing:.5em;
+  color:var(--paper);
+  mix-blend-mode:difference;
+}
+.hero-scroll{
+  position:absolute;left:50%;bottom:2rem;transform:translateX(-50%);
+  font-family:var(--font-latin);font-size:.7rem;letter-spacing:.4em;
+  color:var(--soft);text-transform:uppercase;
+  display:flex;flex-direction:column;align-items:center;gap:.75rem;
+}
+.hero-scroll::after{content:"";width:1px;height:2.5rem;background:var(--rule);animation:drip 2.5s ease-in-out infinite}
+@keyframes drip{0%,100%{transform:scaleY(.3);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}}
+
+/* ============ SECTION FRAME ============ */
+section{padding:7rem var(--pad);position:relative}
+.section-head{
+  display:grid;grid-template-columns:auto 1fr auto;gap:2rem;align-items:baseline;
+  margin-bottom:4.5rem;padding-bottom:1.75rem;border-bottom:1px solid var(--rule);
+}
+.section-num{font-family:var(--font-latin);font-style:italic;font-size:.9rem;letter-spacing:.3em;color:var(--accent)}
+.section-title{font-family:var(--font-serif);font-size:2.25rem;font-weight:500;letter-spacing:.15em}
+.section-title .en{display:block;font-family:var(--font-latin);font-style:italic;font-size:.85rem;color:var(--soft);letter-spacing:.25em;margin-top:.35rem;font-weight:300}
+.section-kicker{font-family:var(--font-latin);font-size:.75rem;letter-spacing:.35em;text-transform:uppercase;color:var(--soft);text-align:right}
+
+/* ============ ABOUT ============ */
+.about{background:var(--paper)}
+.about-grid{display:grid;grid-template-columns:1fr 1.1fr;gap:var(--gap);align-items:start}
+.about-portrait{
+  aspect-ratio:3/4;background:var(--bg);border:1px solid var(--rule);
+  position:relative;overflow:hidden;
+}
+.about-portrait::before{
+  content:"";position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse at 50% 30%, color-mix(in srgb, var(--paper) 65%, transparent), transparent 60%),
+    repeating-linear-gradient(110deg, color-mix(in srgb, var(--ink) 10%, transparent) 0 1px, transparent 1px 18px);
+}
+.about-portrait-cap{position:absolute;bottom:1rem;left:1rem;font-family:'ui-monospace',monospace;font-size:.65rem;color:var(--soft);background:var(--paper);padding:.35rem .6rem;letter-spacing:.1em;border:1px solid var(--rule)}
+.about-body p{margin-bottom:1.75rem;font-size:1rem;line-height:2.15;text-wrap:pretty}
+.about-body p:first-child{font-family:var(--font-serif);font-size:1.1rem;line-height:2.1;color:var(--ink)}
+.about-body .first-char{font-family:var(--font-serif);font-size:3.5rem;float:left;line-height:.9;margin:.3rem .5rem 0 0;color:var(--accent);font-weight:500}
+.about-affil{margin-top:2.5rem;display:flex;flex-direction:column;gap:.6rem;padding-top:1.75rem;border-top:1px solid var(--rule)}
+.about-affil-row{display:grid;grid-template-columns:8rem 1fr;font-size:.9rem}
+.about-affil-row dt{font-family:var(--font-latin);font-style:italic;color:var(--soft);letter-spacing:.2em;font-size:.75rem;text-transform:uppercase;padding-top:.25rem}
+.about-affil-row dd{font-family:var(--font-serif);letter-spacing:.08em}
+
+/* awards timeline */
+.awards{margin-top:4rem}
+.awards-title{font-family:var(--font-serif);font-size:1.1rem;letter-spacing:.4em;margin-bottom:2rem;color:var(--soft);text-align:center}
+.award{
+  display:grid;grid-template-columns:6rem 1fr auto;gap:2.5rem;align-items:baseline;
+  padding:1.5rem 0;border-top:1px solid var(--rule);
+}
+.award:last-child{border-bottom:1px solid var(--rule)}
+.award-year{font-family:var(--font-latin);font-size:1.5rem;font-style:italic;color:var(--accent);font-weight:300}
+.award-title{font-family:var(--font-serif);font-size:1.1rem;font-weight:500;letter-spacing:.1em}
+.award-title .work{display:block;font-size:.95rem;color:var(--soft);font-weight:400;margin-top:.25rem;letter-spacing:.15em}
+.award-title .work::before{content:"『";color:var(--accent)}
+.award-title .work::after{content:"』";color:var(--accent)}
+.award-badge{
+  font-family:var(--font-latin);font-size:.7rem;letter-spacing:.3em;text-transform:uppercase;
+  color:var(--accent);padding:.4rem .8rem;border:1px solid var(--accent);white-space:nowrap;
+}
+.award.featured{background:color-mix(in srgb, var(--accent) 5%, transparent);margin:0 -1rem;padding:1.5rem 1rem}
+.award.featured .award-year{font-size:2rem}
+
+/* ============ WORKS GALLERY ============ */
+.works{background:var(--bg)}
+.works-filter{display:flex;justify-content:center;gap:2.5rem;margin-bottom:3.5rem;flex-wrap:wrap}
+.works-filter button{
+  background:none;border:none;font-family:var(--font-serif);font-size:.95rem;color:var(--soft);
+  letter-spacing:.25em;cursor:pointer;padding:.5rem 0;position:relative;transition:color .3s;
+}
+.works-filter button .count{font-family:var(--font-latin);font-size:.7rem;color:var(--accent);margin-left:.5rem;font-style:italic}
+.works-filter button::after{content:"";position:absolute;left:50%;bottom:0;width:0;height:1px;background:var(--accent);transition:all .3s}
+.works-filter button:hover{color:var(--ink)}
+.works-filter button.active{color:var(--ink)}
+.works-filter button.active::after{left:0;width:100%}
+
+.works-grid{display:grid;grid-template-columns:repeat(var(--cols),1fr);gap:var(--gap) calc(var(--gap) * .8)}
+.work{cursor:pointer;transition:opacity .4s}
+.work:hover .work-thumb::before{opacity:.4}
+.work:hover .work-thumb::after{opacity:1}
+.work-thumb{
+  aspect-ratio:4/5;background:var(--paper);border:1px solid var(--rule);
+  position:relative;overflow:hidden;margin-bottom:1.25rem;
+}
+.work[data-orient="wide"] .work-thumb{aspect-ratio:5/4}
+.work[data-orient="sq"] .work-thumb{aspect-ratio:1/1}
+.work-thumb-art{
+  position:absolute;inset:1rem;
+  background-color:#1a1612;
+  border:1px solid color-mix(in srgb, var(--ink) 10%, transparent);
+}
+.work-thumb-art::after{
+  content:"";position:absolute;inset:0;
+  background:
+    repeating-linear-gradient(2deg, transparent 0 3px, color-mix(in srgb,#000 15%, transparent) 3px 4px),
+    repeating-linear-gradient(92deg, transparent 0 4px, color-mix(in srgb,#000 10%, transparent) 4px 5px);
+  mix-blend-mode:overlay;opacity:.25;pointer-events:none;
+}
+.work-thumb::before{
+  content:"";position:absolute;inset:0;background:var(--ink);opacity:0;transition:opacity .4s;z-index:2;
+}
+.work-thumb::after{
+  content:"詳細を見る";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+  font-family:var(--font-serif);font-size:.85rem;letter-spacing:.4em;color:var(--paper);
+  opacity:0;transition:opacity .4s;z-index:3;
+  border:1px solid var(--paper);padding:.75rem 1.5rem;white-space:nowrap;
+}
+.work-num{position:absolute;top:.75rem;left:.75rem;font-family:var(--font-latin);font-style:italic;font-size:.7rem;color:color-mix(in srgb, var(--paper) 75%, transparent);z-index:2;letter-spacing:.15em}
+.work-caption{display:flex;flex-direction:column;gap:.3rem}
+.work-title{font-family:var(--font-serif);font-size:1rem;font-weight:500;letter-spacing:.12em}
+.work-meta{display:flex;justify-content:space-between;font-family:var(--font-latin);font-style:italic;font-size:.75rem;color:var(--soft);letter-spacing:.1em}
+.work-meta span:last-child{letter-spacing:.15em}
+
+.works-more{text-align:center;margin-top:4rem}
+.works-more a{font-family:var(--font-serif);letter-spacing:.4em;font-size:.9rem;color:var(--soft);border-bottom:1px solid var(--rule);padding-bottom:.5rem;transition:all .3s}
+.works-more a:hover{color:var(--ink);border-color:var(--accent)}
+
+/* ============ MODAL ============ */
+.modal-back{
+  position:fixed;inset:0;background:color-mix(in srgb, var(--ink) 85%, transparent);
+  z-index:100;display:none;align-items:center;justify-content:center;padding:4rem;
+  opacity:0;transition:opacity .4s;
+}
+.modal-back.open{display:flex;opacity:1}
+.modal{
+  background:var(--paper);max-width:1100px;width:100%;max-height:90vh;overflow:auto;
+  display:grid;grid-template-columns:1.2fr 1fr;gap:0;position:relative;
+  border:1px solid var(--rule);
+}
+.modal-close{position:absolute;top:1rem;right:1rem;z-index:2;background:var(--paper);border:1px solid var(--rule);width:2.5rem;height:2.5rem;cursor:pointer;font-family:var(--font-latin);font-size:1rem;color:var(--ink)}
+.modal-art{aspect-ratio:4/5;background:var(--bg);position:relative}
+.modal-art-inner{position:absolute;inset:2rem;background:linear-gradient(165deg, var(--g-a,#a37a4a), var(--g-b,#4a5a3c) 55%, var(--g-c,#2a2318));border:1px solid color-mix(in srgb, var(--ink) 10%, transparent)}
+.modal-art-inner::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(3deg, transparent 0 3px, color-mix(in srgb,#000 15%, transparent) 3px 4px);mix-blend-mode:overlay;opacity:.6}
+.modal-info{padding:3rem 2.5rem;display:flex;flex-direction:column}
+.modal-num{font-family:var(--font-latin);font-style:italic;font-size:.8rem;color:var(--accent);letter-spacing:.3em;margin-bottom:1rem}
+.modal-title{font-family:var(--font-serif);font-size:2rem;font-weight:500;letter-spacing:.1em;margin-bottom:.5rem;line-height:1.3}
+.modal-title-en{font-family:var(--font-latin);font-style:italic;color:var(--soft);font-size:1rem;margin-bottom:2rem;letter-spacing:.15em}
+.modal-specs{display:flex;flex-direction:column;gap:.75rem;margin-bottom:2rem;padding:1.5rem 0;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.modal-specs dl{display:grid;grid-template-columns:6rem 1fr;font-size:.85rem}
+.modal-specs dt{font-family:var(--font-latin);font-style:italic;color:var(--soft);letter-spacing:.2em;font-size:.7rem;text-transform:uppercase}
+.modal-specs dd{font-family:var(--font-serif);letter-spacing:.1em}
+.modal-desc{font-size:.95rem;line-height:2;color:var(--ink);text-wrap:pretty}
+.modal-nav{margin-top:auto;display:flex;justify-content:space-between;padding-top:2rem;border-top:1px solid var(--rule);font-family:var(--font-latin);font-size:.8rem;letter-spacing:.3em;color:var(--soft);text-transform:uppercase}
+.modal-nav button{background:none;border:none;cursor:pointer;font:inherit;color:inherit;letter-spacing:inherit}
+.modal-nav button:hover{color:var(--accent)}
+
+/* ============ EXHIBITIONS ============ */
+.exhibitions{background:var(--paper)}
+.exh-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--gap)}
+.exh-col h4{font-family:var(--font-serif);font-size:1rem;letter-spacing:.4em;margin-bottom:2rem;color:var(--accent);text-align:center;padding-bottom:1rem;border-bottom:1px solid var(--rule)}
+.exh-item{
+  display:grid;grid-template-columns:5rem 1fr;gap:1.5rem;padding:1.25rem 0;
+  border-bottom:1px solid color-mix(in srgb, var(--rule) 70%, transparent);
+  align-items:baseline;
+}
+.exh-year{font-family:var(--font-latin);font-style:italic;font-size:1.1rem;color:var(--soft);letter-spacing:.1em}
+.exh-body{font-size:.9rem;line-height:1.7}
+.exh-body .title{font-family:var(--font-serif);font-weight:500;letter-spacing:.1em;display:block;margin-bottom:.2rem}
+.exh-body .venue{color:var(--soft);font-size:.8rem;letter-spacing:.1em}
+
+/* ============ PROCESS ============ */
+.process{background:var(--bg);padding-top:9rem;padding-bottom:9rem}
+.process-intro{max-width:38em;margin:0 auto 5rem;text-align:center;font-family:var(--font-serif);font-size:1.1rem;line-height:2.2;letter-spacing:.08em;text-wrap:pretty}
+.process-intro::before{content:"—";display:block;color:var(--accent);margin-bottom:1.5rem;letter-spacing:0}
+.process-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:2.5rem;margin-bottom:5rem}
+.step-num{font-family:var(--font-latin);font-style:italic;font-size:1rem;color:var(--accent);letter-spacing:.3em;margin-bottom:.75rem}
+.step-title{font-family:var(--font-serif);font-size:1.3rem;font-weight:500;letter-spacing:.15em;margin-bottom:.4rem}
+.step-title-en{font-family:var(--font-latin);font-style:italic;font-size:.8rem;color:var(--soft);letter-spacing:.2em;margin-bottom:1.25rem;padding-bottom:1.25rem;border-bottom:1px solid var(--rule)}
+.step-body{font-size:.88rem;line-height:1.95;color:var(--soft);text-wrap:pretty}
+.studio-gallery{display:grid;grid-template-columns:2fr 1fr 1fr;gap:1.5rem;margin-top:3rem}
+.studio-gallery div{aspect-ratio:4/3;border:1px solid var(--rule);position:relative;background:var(--paper)}
+.studio-gallery div::before{
+  content:attr(data-cap);
+  position:absolute;bottom:.75rem;left:.75rem;
+  font-family:'ui-monospace',monospace;font-size:.7rem;color:var(--soft);
+  background:var(--paper);padding:.3rem .55rem;z-index:2;border:1px solid var(--rule);letter-spacing:.1em;
+}
+.studio-gallery div::after{
+  content:"";position:absolute;inset:.5rem;
+  background:repeating-linear-gradient(135deg, color-mix(in srgb, var(--soft) 20%, transparent) 0 1px, transparent 1px 14px), color-mix(in srgb, var(--ink) 15%, var(--paper));
+  border:1px solid color-mix(in srgb, var(--ink) 10%, transparent);
+}
+.studio-gallery div:first-child{grid-row:span 2}
+@media (max-width: 1100px){ .studio-gallery div:first-child{grid-row:auto} }
+
+/* ============ NEWS ============ */
+.news{background:var(--paper)}
+.news-list{display:flex;flex-direction:column}
+.news-item{
+  display:grid;grid-template-columns:8rem 8rem 1fr auto;gap:2rem;align-items:baseline;
+  padding:1.75rem 0;border-bottom:1px solid var(--rule);
+  transition:background .3s,padding .3s;cursor:pointer;
+}
+.news-item:hover{background:color-mix(in srgb, var(--accent) 4%, transparent);padding-left:1rem;padding-right:1rem;margin:0 -1rem}
+.news-item:first-child{border-top:1px solid var(--rule)}
+.news-date{font-family:var(--font-latin);font-style:italic;font-size:.95rem;color:var(--accent);letter-spacing:.1em}
+.news-cat{font-family:var(--font-serif);font-size:.75rem;letter-spacing:.35em;color:var(--soft);padding:.3rem .6rem;border:1px solid var(--rule);text-align:center;white-space:nowrap}
+.news-cat[data-cat="受賞"]{color:var(--accent);border-color:var(--accent)}
+.news-title{font-family:var(--font-serif);font-size:1.05rem;letter-spacing:.08em;font-weight:500;line-height:1.6}
+.news-arrow{font-family:var(--font-latin);color:var(--soft);font-size:1.25rem;transition:transform .3s}
+.news-item:hover .news-arrow{transform:translateX(.5rem);color:var(--accent)}
+
+/* ============ CONTACT ============ */
+.contact{background:var(--bg);text-align:center}
+.contact-mark{font-family:var(--font-serif);font-size:2.5rem;color:var(--accent);letter-spacing:.5em;margin-bottom:1rem}
+.contact-title{font-family:var(--font-serif);font-size:3rem;letter-spacing:.2em;margin-bottom:.5rem;font-weight:500}
+.contact-en{font-family:var(--font-latin);font-style:italic;color:var(--soft);letter-spacing:.3em;margin-bottom:3rem;font-size:1rem}
+.contact-lead{max-width:32em;margin:0 auto 3.5rem;line-height:2.1;text-wrap:pretty}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:3rem;max-width:900px;margin:0 auto;padding:3rem 0;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.contact-block dt{font-family:var(--font-latin);font-style:italic;font-size:.75rem;color:var(--accent);letter-spacing:.3em;text-transform:uppercase;margin-bottom:.75rem}
+.contact-block dd{font-family:var(--font-serif);font-size:1rem;letter-spacing:.1em;line-height:1.8}
+.contact-form{max-width:560px;margin:4rem auto 0;text-align:left;display:flex;flex-direction:column;gap:1.5rem}
+.field{display:flex;flex-direction:column;gap:.5rem}
+.field label{font-family:var(--font-latin);font-style:italic;font-size:.75rem;color:var(--soft);letter-spacing:.3em;text-transform:uppercase}
+.field input,.field textarea,.field select{
+  background:transparent;border:none;border-bottom:1px solid var(--rule);padding:.75rem 0;
+  font:inherit;color:var(--ink);font-family:var(--font-serif);letter-spacing:.08em;font-size:1rem;
+  transition:border-color .3s;
+}
+.field input:focus,.field textarea:focus,.field select:focus{outline:none;border-color:var(--accent)}
+.field textarea{resize:vertical;min-height:6rem}
+.submit{
+  margin-top:1rem;align-self:flex-start;background:transparent;border:1px solid var(--ink);
+  padding:1rem 3rem;font-family:var(--font-serif);letter-spacing:.5em;color:var(--ink);
+  cursor:pointer;transition:all .3s;font-size:.9rem;
+}
+.submit:hover{background:var(--ink);color:var(--paper)}
+
+/* ============ FOOTER ============ */
+footer{padding:3rem var(--pad);border-top:1px solid var(--rule);display:flex;justify-content:space-between;align-items:center;font-size:.75rem;color:var(--soft);letter-spacing:.15em;font-family:var(--font-latin);font-style:italic}
+footer .mark{font-family:var(--font-serif);font-style:normal;letter-spacing:.4em;color:var(--ink);font-size:.85rem}
+
+/* ============ TWEAKS PANEL ============ */
+.tweaks-panel{
+  position:fixed;bottom:1.5rem;right:1.5rem;z-index:200;
+  background:var(--paper);border:1px solid var(--rule);
+  padding:1.5rem;width:280px;
+  font-family:var(--font-body);font-size:.8rem;color:var(--ink);
+  box-shadow:0 8px 24px rgba(0,0,0,.08);
+  display:none;
+}
+.tweaks-panel.show{display:block}
+.tweaks-title{font-family:var(--font-serif);letter-spacing:.4em;font-size:.8rem;padding-bottom:.75rem;border-bottom:1px solid var(--rule);margin-bottom:1rem;display:flex;justify-content:space-between;align-items:center}
+.tweaks-title small{font-family:var(--font-latin);font-style:italic;color:var(--soft);letter-spacing:.2em;font-size:.7rem;text-transform:uppercase}
+.tw-group{margin-bottom:1rem}
+.tw-group > label{display:block;font-family:var(--font-latin);font-style:italic;color:var(--soft);font-size:.7rem;letter-spacing:.25em;text-transform:uppercase;margin-bottom:.5rem}
+.tw-row{display:flex;gap:.3rem;flex-wrap:wrap}
+.tw-opt{
+  flex:1;padding:.5rem .4rem;border:1px solid var(--rule);background:transparent;color:var(--ink);
+  font:inherit;font-size:.75rem;cursor:pointer;transition:all .2s;font-family:var(--font-serif);letter-spacing:.1em;text-align:center;
+  min-width:0;
+}
+.tw-opt:hover{border-color:var(--accent)}
+.tw-opt.active{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.tw-swatch{width:100%;height:1.5rem;margin-top:.3rem;border:1px solid var(--rule)}
+
+/* ornament variants */
+html[data-ornament="minimal"] .section-head{grid-template-columns:1fr;text-align:center}
+html[data-ornament="minimal"] .section-kicker, html[data-ornament="minimal"] .section-num{display:none}
+html[data-ornament="seal"] .section-head::after{
+  content:"啓";position:absolute;right:var(--pad);top:4.5rem;
+  font-family:var(--font-serif);background:var(--accent);color:var(--paper);
+  width:3rem;height:3rem;display:grid;place-items:center;font-size:1.3rem;letter-spacing:0;
+}
+
+/* responsive */
+@media (max-width: 1100px){
+  .hero{grid-template-columns:1fr;padding:8rem 3rem 4rem}
+  .about-grid,.exh-grid{grid-template-columns:1fr}
+  .works-grid{grid-template-columns:repeat(2,1fr) !important}
+  .process-steps{grid-template-columns:repeat(2,1fr)}
+  .contact-grid{grid-template-columns:1fr;gap:2rem}
+  .nav{padding:1rem 1.5rem}
+  .nav-links{display:none}
+  :root{--pad:2rem}
+  .modal{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-brand">松田 啓<small>Matsuda Hiromu</small></div>
+  <div class="nav-links">
+    <a href="#about" class="active">About</a>
+    <a href="#works">Works</a>
+    <a href="#exhibitions">Exhibitions</a>
+    <a href="#process">Studio</a>
+    <a href="#news">News</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero" data-screen-label="00 Hero">
+  <div>
+    <div class="hero-meta">Oil Painter — Since 2006</div>
+    <h1 class="hero-title">
+      <span class="kana">まつだ　ひろむ</span>
+      松田 啓
+    </h1>
+    <div class="hero-latin">Matsuda Hiromu — Peintre à l'huile</div>
+    <p class="hero-desc">
+      自然の四季がもたらす色彩の豊かさと奥深さを、油彩画を通して追求する。
+      渓谷の水流と木々の色づきに宿る、光と影の響きを描き続けて二十年。
+    </p>
+    <div class="hero-accolade">
+      <div class="hero-accolade-label">Prime Minister's Award · 2025</div>
+      <div class="hero-accolade-title">第64回二元展　内閣総理大臣賞</div>
+      <div class="hero-accolade-sub">受賞作『早秋の渓谷』</div>
+    </div>
+  </div>
+  <div class="hero-art" aria-label="秋の渓流（奥入瀬渓谷）">
+    <div class="hero-art-label">秋 の 渓 流</div>
+    <div class="hero-art-cap">[ 秋の渓流 · 奥入瀬渓谷 · oil on canvas ]</div>
+  </div>
+  <div class="hero-scroll">scroll</div>
+</header>
+
+<!-- ABOUT -->
+<section class="about" id="about" data-screen-label="01 About">
+  <div class="section-head">
+    <div class="section-num">— 零壱 / 01</div>
+    <h2 class="section-title">作家について<span class="en">About the Artist</span></h2>
+    <div class="section-kicker">Biography</div>
+  </div>
+
+  <div class="about-grid">
+    <div class="about-portrait">
+      <div class="about-portrait-cap">[ portrait · studio 2024 ]</div>
+    </div>
+    <div class="about-body">
+      <p><span class="first-char">自</span>然の四季がもたらす色彩の豊かさと奥深さを、油彩画を通して追求しています。特に「渓谷の水流」と「木々の色づき」に宿る光と影の響きを丁寧に描写し、見る者をその場に誘うような臨場感と表情を表現しています。</p>
+      <p>2006年より榮永大治良教室に入会し、研鑽を積む。以後、二元会を中心に作品を発表し、近年は兵庫県知事賞、内閣総理大臣賞を受賞。現在は兵庫県を拠点に、渓谷や山間の自然を題材とした大作に取り組んでいる。</p>
+      <dl class="about-affil">
+        <div class="about-affil-row"><dt>Title</dt><dd>油彩画家 ／ Oil Painter</dd></div>
+        <div class="about-affil-row"><dt>Society</dt><dd>二元会 委員</dd></div>
+        <div class="about-affil-row"><dt>Member</dt><dd>日本美術家連盟 会員</dd></div>
+        <div class="about-affil-row"><dt>Since</dt><dd>榮永大治良教室 2006 —</dd></div>
+      </dl>
+    </div>
+  </div>
+
+  <div class="awards">
+    <div class="awards-title">— 主 な 受 賞 歴 —</div>
+    <div class="award featured">
+      <div class="award-year">2025</div>
+      <div class="award-title">内閣総理大臣賞 ／ 第64回二元展<span class="work">早秋の渓谷</span></div>
+      <div class="award-badge">Prime Minister's Award</div>
+    </div>
+    <div class="award">
+      <div class="award-year">2024</div>
+      <div class="award-title">兵庫県知事賞 ／ 第63回二元展<span class="work">秋色の清流</span></div>
+      <div class="award-badge">Governor's Award</div>
+    </div>
+    <div class="award">
+      <div class="award-year">2022</div>
+      <div class="award-title">二元会努力賞 ／ 第61回二元展<span class="work">秋の渓谷</span></div>
+      <div class="award-badge">Merit Prize</div>
+    </div>
+  </div>
+</section>
+
+<!-- WORKS -->
+<section class="works" id="works" data-screen-label="02 Works">
+  <div class="section-head">
+    <div class="section-num">— 零弐 / 02</div>
+    <h2 class="section-title">作品ギャラリー<span class="en">Selected Works</span></h2>
+    <div class="section-kicker">Oil on Canvas</div>
+  </div>
+
+  <div class="works-filter">
+    <button class="active" data-filter="all">すべて<span class="count">12</span></button>
+    <button data-filter="valley">渓谷<span class="count">05</span></button>
+    <button data-filter="autumn">秋景<span class="count">04</span></button>
+    <button data-filter="water">水流<span class="count">03</span></button>
+  </div>
+
+  <div class="works-grid" id="worksGrid"></div>
+
+  <div class="works-more"><a href="#">すべての作品を見る　—　View All Works</a></div>
+</section>
+
+<!-- EXHIBITIONS -->
+<section class="exhibitions" id="exhibitions" data-screen-label="03 Exhibitions">
+  <div class="section-head">
+    <div class="section-num">— 零参 / 03</div>
+    <h2 class="section-title">個展・展覧会<span class="en">Exhibitions</span></h2>
+    <div class="section-kicker">2018 — 2026</div>
+  </div>
+
+  <div class="exh-grid">
+    <div class="exh-col">
+      <h4>団 体 展　Group Exhibitions</h4>
+      <div class="exh-item"><div class="exh-year">2025</div><div class="exh-body"><span class="title">第64回 二元展</span><span class="venue">国立新美術館 ／ 東京 六本木</span></div></div>
+      <div class="exh-item"><div class="exh-year">2024</div><div class="exh-body"><span class="title">第63回 二元展</span><span class="venue">国立新美術館 ／ 東京 六本木</span></div></div>
+      <div class="exh-item"><div class="exh-year">2023</div><div class="exh-body"><span class="title">第62回 二元展</span><span class="venue">国立新美術館 ／ 東京 六本木</span></div></div>
+      <div class="exh-item"><div class="exh-year">2022</div><div class="exh-body"><span class="title">第61回 二元展</span><span class="venue">国立新美術館 ／ 東京 六本木</span></div></div>
+      <div class="exh-item"><div class="exh-year">2021</div><div class="exh-body"><span class="title">兵庫県美術家連盟展</span><span class="venue">兵庫県立美術館 ／ 神戸</span></div></div>
+      <div class="exh-item"><div class="exh-year">2019</div><div class="exh-body"><span class="title">関西美術院 秋季展</span><span class="venue">京都市美術館 別館</span></div></div>
+    </div>
+    <div class="exh-col">
+      <h4>個 展　Solo Exhibitions</h4>
+      <div class="exh-item"><div class="exh-year">2026</div><div class="exh-body"><span class="title">渓流の譜　— 松田啓 油彩展 —</span><span class="venue">ギャラリー小暮 ／ 神戸 元町　予定</span></div></div>
+      <div class="exh-item"><div class="exh-year">2023</div><div class="exh-body"><span class="title">水と光の四季</span><span class="venue">阪急うめだ本店 美術画廊</span></div></div>
+      <div class="exh-item"><div class="exh-year">2020</div><div class="exh-body"><span class="title">秋色の譜　松田啓 油彩展</span><span class="venue">ギャラリー小暮 ／ 神戸 元町</span></div></div>
+      <div class="exh-item"><div class="exh-year">2018</div><div class="exh-body"><span class="title">渓谷を描く</span><span class="venue">姫路市立美術館 市民ギャラリー</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS / STUDIO -->
+<section class="process" id="process" data-screen-label="04 Process">
+  <div class="section-head">
+    <div class="section-num">— 零肆 / 04</div>
+    <h2 class="section-title">制作の過程<span class="en">Process &amp; Studio</span></h2>
+    <div class="section-kicker">In the Atelier</div>
+  </div>
+
+  <p class="process-intro">
+    一枚の絵は、一度の邂逅から始まる。渓を訪れ、光を見、水の匂いを記憶に刻む。
+    アトリエに戻り、幾層もの油と顔料を積み重ねるうちに、その日の空気が画布に立ち上がってくる。
+  </p>
+
+  <div class="process-steps">
+    <div class="step">
+      <div class="step-num">— i. 邂逅</div>
+      <div class="step-title">取材</div>
+      <div class="step-title-en">Encountering the Site</div>
+      <div class="step-body">季節ごとに渓谷を訪れ、水音や光の角度を素描と写真に収める。題材は必ず自ら足を運んだ場所のみを選ぶ。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">— ii. 構想</div>
+      <div class="step-title">下絵</div>
+      <div class="step-title-en">Composition</div>
+      <div class="step-body">木炭で構図を練り、色面の強弱と視線の流れを検討する。一枚の大作に向け十数枚の習作を重ねる。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">— iii. 下塗</div>
+      <div class="step-title">地塗り</div>
+      <div class="step-title-en">Underpainting</div>
+      <div class="step-body">温色の地で画面全体の光量を決める。乾燥を待ちながら、岩肌と水面の量感を徐々に起こしていく。</div>
+    </div>
+    <div class="step">
+      <div class="step-num">— iv. 仕上</div>
+      <div class="step-title">重色</div>
+      <div class="step-title-en">Glazing &amp; Finish</div>
+      <div class="step-body">幾層もの透明色を重ね、水の透明感と紅葉の深みを醸成する。最後に白と群青で光を置き、筆を収める。</div>
+    </div>
+  </div>
+
+  <div class="studio-gallery">
+    <div data-cap="[ atelier · west light ]"></div>
+    <div data-cap="[ palette ]"></div>
+    <div data-cap="[ sketchbook ]"></div>
+    <div data-cap="[ field study · autumn ]"></div>
+    <div data-cap="[ brushes &amp; linseed ]"></div>
+  </div>
+</section>
+
+<!-- NEWS -->
+<section class="news" id="news" data-screen-label="05 News">
+  <div class="section-head">
+    <div class="section-num">— 零伍 / 05</div>
+    <h2 class="section-title">お知らせ<span class="en">News &amp; Announcements</span></h2>
+    <div class="section-kicker">Latest</div>
+  </div>
+
+  <div class="news-list">
+    <div class="news-item">
+      <div class="news-date">2026.04.10</div>
+      <div class="news-cat">制作中</div>
+      <div class="news-title">新作『春の渓』制作中　—　次回個展に向けて F100 号に着手しました</div>
+      <div class="news-arrow">→</div>
+    </div>
+    <div class="news-item">
+      <div class="news-date">2026.02.18</div>
+      <div class="news-cat">個展</div>
+      <div class="news-title">個展「渓流の譜」2026年秋　ギャラリー小暮にて開催決定</div>
+      <div class="news-arrow">→</div>
+    </div>
+    <div class="news-item">
+      <div class="news-date">2025.11.03</div>
+      <div class="news-cat" data-cat="受賞">受賞</div>
+      <div class="news-title">第64回二元展にて『早秋の渓谷』が内閣総理大臣賞を受賞いたしました</div>
+      <div class="news-arrow">→</div>
+    </div>
+    <div class="news-item">
+      <div class="news-date">2025.09.20</div>
+      <div class="news-cat">取材</div>
+      <div class="news-title">美術誌『アトリエ』2025年11月号に取材記事が掲載されます</div>
+      <div class="news-arrow">→</div>
+    </div>
+    <div class="news-item">
+      <div class="news-date">2025.08.05</div>
+      <div class="news-cat">出品</div>
+      <div class="news-title">第64回二元展に『早秋の渓谷』（F130号）を出品いたします</div>
+      <div class="news-arrow">→</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact" data-screen-label="06 Contact">
+  <div class="contact-mark">— 印 —</div>
+  <h2 class="contact-title">ご 連 絡</h2>
+  <div class="contact-en">Contact &amp; Inquiries</div>
+  <p class="contact-lead">
+    作品のご購入・取材・展覧会出品のご依頼は、下記までお気軽にご連絡ください。
+    個人蒐集家の方へのアトリエ公開も承っております。
+  </p>
+
+  <dl class="contact-grid">
+    <div class="contact-block"><dt>Studio</dt><dd>〒650-00XX<br>兵庫県神戸市中央区<br>（詳細はご連絡の上）</dd></div>
+    <div class="contact-block"><dt>Email</dt><dd>studio@matsuda-hiromu.jp</dd></div>
+    <div class="contact-block"><dt>Representation</dt><dd>ギャラリー小暮<br>神戸市元町</dd></div>
+  </dl>
+
+  <form class="contact-form" onsubmit="event.preventDefault();alert('お問い合わせを受け付けました（デモ）');">
+    <div class="field"><label>お名前 · Name</label><input type="text" required></div>
+    <div class="field"><label>ご連絡先 · Email</label><input type="email" required></div>
+    <div class="field"><label>ご用件 · Subject</label>
+      <select>
+        <option>作品の購入について</option>
+        <option>取材・掲載依頼</option>
+        <option>展覧会出品依頼</option>
+        <option>アトリエ訪問</option>
+        <option>その他</option>
+      </select>
+    </div>
+    <div class="field"><label>ご用件詳細 · Message</label><textarea rows="4"></textarea></div>
+    <button class="submit" type="submit">送　信</button>
+  </form>
+</section>
+
+<footer>
+  <div class="mark">松 田 啓</div>
+  <div>© 2026 Matsuda Hiromu · Oil Painter · All works reserved</div>
+  <div>Kobe, Japan</div>
+</footer>
+
+<!-- MODAL -->
+<div class="modal-back" id="modalBack">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">×</button>
+    <div class="modal-art"><div class="modal-art-inner" id="modalArt"></div></div>
+    <div class="modal-info">
+      <div class="modal-num" id="modalNum"></div>
+      <h3 class="modal-title" id="modalTitle"></h3>
+      <div class="modal-title-en" id="modalTitleEn"></div>
+      <div class="modal-specs">
+        <dl><dt>Year</dt><dd id="modalYear"></dd></dl>
+        <dl><dt>Medium</dt><dd id="modalMedium"></dd></dl>
+        <dl><dt>Size</dt><dd id="modalSize"></dd></dl>
+        <dl><dt>Exhibition</dt><dd id="modalExh"></dd></dl>
+      </div>
+      <p class="modal-desc" id="modalDesc"></p>
+      <div class="modal-nav">
+        <button onclick="navModal(-1)">← 前作</button>
+        <button onclick="navModal(1)">次作 →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TWEAKS PANEL -->
+<div class="tweaks-panel" id="tweaksPanel">
+  <div class="tweaks-title">Tweaks<small>意匠</small></div>
+  <div class="tw-group">
+    <label>配色 · Palette</label>
+    <div class="tw-row" id="twPalette"></div>
+  </div>
+  <div class="tw-group">
+    <label>書体 · Typography</label>
+    <div class="tw-row" id="twTypo"></div>
+  </div>
+  <div class="tw-group">
+    <label>グリッド密度 · Density</label>
+    <div class="tw-row" id="twDensity"></div>
+  </div>
+  <div class="tw-group">
+    <label>装飾 · Ornament</label>
+    <div class="tw-row" id="twOrnament"></div>
+  </div>
+</div>
+
+<script>
+/* ============= WORKS DATA ============= */
+const WORKS = [
+  { id:1, title:"秋の渓流（奥入瀬渓谷）", en:"Autumn Stream · Oirase", year:2024, size:"F50号", medium:"油彩 · キャンバス", exh:"—", tag:["valley","autumn","water"], orient:"portrait",
+    img:"images/aki-no-keiryu.jpg", desc:"奥入瀬渓谷、紅葉に染まる水流。苔むす岩と黄金の葉を抜ける光を描いた。" },
+  { id:2, title:"紅葉の渓谷", en:"Ravine in Crimson", year:2023, size:"F30号", medium:"油彩 · キャンバス", exh:"—", tag:["valley","autumn"], orient:"portrait",
+    img:"images/kouyou-no-keikoku.jpg", desc:"深まる秋の渓。紅葉と岩肌、流れの三者が織りなす色の響き。" },
+  { id:3, title:"深緑の渓谷", en:"Ravine in Deep Green", year:2023, size:"F30号", medium:"油彩 · キャンバス", exh:"—", tag:["valley","water"], orient:"portrait",
+    img:"images/shinryoku-no-keikoku.jpg", desc:"盛夏の渓、深い緑に包まれた静寂。水面の反射と葉の透光を重ね描く。" },
+  { id:4, title:"新緑の清流", en:"Fresh Green Stream", year:2022, size:"F30号", medium:"油彩 · キャンバス", exh:"—", tag:["water"], orient:"portrait",
+    img:"images/shinryoku-no-seiryu.jpg", desc:"若葉の頃、透明度を増す清流。光を透かす新緑と水の輝きを丁寧に。" },
+  { id:5, title:"若葉の渓流", en:"Stream in Early Leaves", year:2022, size:"F20号", medium:"油彩 · キャンバス", exh:"—", tag:["water"], orient:"portrait",
+    img:"images/wakaba-no-keiryu.jpg", desc:"芽吹きの季、淡い緑と流れの始まり。柔らかな光の粒を拾う。" },
+  { id:6, title:"初夏の渓流", en:"Early Summer Stream", year:2023, size:"F30号", medium:"油彩 · キャンバス", exh:"—", tag:["water"], orient:"portrait",
+    img:"images/shoka-no-keiryu.jpg", desc:"初夏、勢いを増す流れ。岩を越える水の動きを鋭い筆致で定着。" },
+  { id:7, title:"初夏の滝を望む", en:"Waterfall in Early Summer", year:2023, size:"F40号", medium:"油彩 · キャンバス", exh:"—", tag:["water","valley"], orient:"portrait",
+    img:"images/shoka-no-taki.jpg", desc:"深い緑に囲まれた滝を望む。白く砕ける水と岩の重さを対比させて。" },
+  { id:8, title:"初夏の尚仁湧水公園", en:"Shoujin Spring · Early Summer", year:2023, size:"F30号", medium:"油彩 · キャンバス", exh:"—", tag:["water"], orient:"portrait",
+    img:"images/shoka-no-shoujin.jpg", desc:"湧水の清らかな流れ。初夏の光と水のきらめきを柔らかな色調で。" },
+  { id:9, title:"尚仁湧水公園", en:"Shoujin Spring", year:2022, size:"F30号", medium:"油彩 · キャンバス", exh:"—", tag:["water"], orient:"portrait",
+    img:"images/shoujin-yusui.jpg", desc:"湧水が育む緑と静謐な水面。木々の影と水の透明感を重ねて。" },
+];
+
+/* ============= RENDER ============= */
+function cssGrad(p){ return `--g-a:${p[0]};--g-b:${p[1]};--g-c:${p[2]}` }
+
+function renderWorks(filter="all"){
+  const grid = document.getElementById('worksGrid');
+  grid.innerHTML = "";
+  WORKS.filter(w => filter==="all" || w.tag.includes(filter)).forEach((w,i)=>{
+    const el = document.createElement('div');
+    el.className = 'work';
+    el.dataset.orient = w.orient;
+    el.dataset.id = w.id;
+    el.innerHTML = `
+      <div class="work-thumb">
+        <span class="work-num">No. ${String(w.id).padStart(2,'0')}</span>
+        <div class="work-thumb-art" style="background-image:url('${w.img}');background-size:cover;background-position:center"></div>
+      </div>
+      <div class="work-caption">
+        <div class="work-title">${w.title}</div>
+        <div class="work-meta"><span>${w.medium}</span><span>${w.year}</span></div>
+      </div>`;
+    el.addEventListener('click', ()=>openModal(w.id));
+    grid.appendChild(el);
+  });
+}
+
+/* ============= MODAL ============= */
+let currentModalId = null;
+function openModal(id){
+  currentModalId = id;
+  const w = WORKS.find(x => x.id === id);
+  if(!w) return;
+  document.getElementById('modalNum').textContent = `No. ${String(w.id).padStart(2,'0')} / ${WORKS.length}`;
+  document.getElementById('modalTitle').textContent = w.title;
+  document.getElementById('modalTitleEn').textContent = w.en;
+  document.getElementById('modalYear').textContent = w.year;
+  document.getElementById('modalMedium').textContent = w.medium;
+  document.getElementById('modalSize').textContent = w.size;
+  document.getElementById('modalExh').textContent = w.exh;
+  document.getElementById('modalDesc').textContent = w.desc;
+  const art = document.getElementById('modalArt');
+  art.style.cssText = `background-image:url('${w.img}');background-size:contain;background-repeat:no-repeat;background-position:center;background-color:#0a0908`;
+  document.getElementById('modalBack').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal(){
+  document.getElementById('modalBack').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function navModal(d){
+  const idx = WORKS.findIndex(x => x.id === currentModalId);
+  const next = (idx + d + WORKS.length) % WORKS.length;
+  openModal(WORKS[next].id);
+}
+document.getElementById('modalBack').addEventListener('click', e => { if(e.target.id === 'modalBack') closeModal(); });
+document.addEventListener('keydown', e => {
+  if(document.getElementById('modalBack').classList.contains('open')){
+    if(e.key === 'Escape') closeModal();
+    if(e.key === 'ArrowLeft') navModal(-1);
+    if(e.key === 'ArrowRight') navModal(1);
+  }
+});
+
+/* filters */
+document.querySelectorAll('.works-filter button').forEach(b => {
+  b.addEventListener('click', () => {
+    document.querySelectorAll('.works-filter button').forEach(x => x.classList.remove('active'));
+    b.classList.add('active');
+    renderWorks(b.dataset.filter);
+  });
+});
+
+/* ============= SCROLL SPY ============= */
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-links a');
+window.addEventListener('scroll', () => {
+  const y = window.scrollY + 160;
+  let current = sections[0]?.id;
+  sections.forEach(s => { if(s.offsetTop <= y) current = s.id; });
+  navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + current));
+});
+
+/* ============= TWEAKS UI ============= */
+function buildTweakButton(group, key, opts, labels){
+  const host = document.getElementById(group);
+  host.innerHTML = "";
+  opts.forEach(o => {
+    const btn = document.createElement('button');
+    btn.className = 'tw-opt';
+    btn.dataset.value = o;
+    btn.textContent = labels[o];
+    btn.addEventListener('click', () => {
+      applyTweaks({ [key]: o });
+      updateTweakUI();
+      window.parent.postMessage({type:'__edit_mode_set_keys', edits:{ [key]: o }}, '*');
+    });
+    host.appendChild(btn);
+  });
+}
+function updateTweakUI(){
+  document.querySelectorAll('#twPalette .tw-opt').forEach(b => b.classList.toggle('active', b.dataset.value === currentTweaks.palette));
+  document.querySelectorAll('#twTypo .tw-opt').forEach(b => b.classList.toggle('active', b.dataset.value === currentTweaks.typography));
+  document.querySelectorAll('#twDensity .tw-opt').forEach(b => b.classList.toggle('active', b.dataset.value === currentTweaks.density));
+  document.querySelectorAll('#twOrnament .tw-opt').forEach(b => b.classList.toggle('active', b.dataset.value === currentTweaks.ornament));
+}
+buildTweakButton('twPalette','palette',['washi','kinari','shironeri','souden','rakuda','kohaku','usuki','kuchiba','kogare','kobicha','shu','sakura','sora','seiji','gofun','usuzumi','haiiro','sumi'],{washi:"和紙",kinari:"生成り",shironeri:"白練",souden:"色白",rakuda:"駱駝",kohaku:"琥珀",usuki:"薄黄",kuchiba:"朽葉",kogare:"浅朱",kobicha:"浅茶",shu:"朱土",sakura:"淡桜",sora:"淡空",seiji:"青磁",gofun:"胡粉",usuzumi:"薄墨",haiiro:"灰色",sumi:"墨"});
+buildTweakButton('twTypo','typography',['mincho','gothic','mix'],{mincho:"明朝",gothic:"ゴシック",mix:"混植"});
+buildTweakButton('twDensity','density',['airy','regular','dense'],{airy:"疎",regular:"中",dense:"密"});
+buildTweakButton('twOrnament','ornament',['ruled','seal','minimal'],{ruled:"罫線",seal:"落款",minimal:"無飾"});
+
+/* ============= INIT ============= */
+applyTweaks({});
+updateTweakUI();
+renderWorks();
+
+/* ============= EDIT MODE PROTOCOL ============= */
+window.addEventListener('message', (e) => {
+  const d = e.data;
+  if(!d || !d.type) return;
+  if(d.type === '__activate_edit_mode') document.getElementById('tweaksPanel').classList.add('show');
+  if(d.type === '__deactivate_edit_mode') document.getElementById('tweaksPanel').classList.remove('show');
+});
+window.parent.postMessage({type:'__edit_mode_available'}, '*');
+</script>
+
+</body>
+</html>

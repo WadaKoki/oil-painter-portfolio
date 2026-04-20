@@ -1,0 +1,21 @@
+{
+  "bio": [
+    "渓谷や山間の自然を主な題材とし、季節ごとに変化する光と色彩を油彩で表現しています。水面の揺らぎ、葉の重なり、岩肌の質感——その積み重ねが、観る者を自然の中へと引き込む絵になると考えています。",
+    "2007年より公募展への出品を重ね、二元会の会友・準会員を経て2011年に会員へ推挙される。2013年より日本美術家連盟会員。大阪市長賞・大阪府知事賞をはじめ多数の賞を受賞し、2024年兵庫県知事賞、2025年には第64回二元展にて内閣総理大臣賞を受賞。現在は大阪府を拠点に、渓谷や山間の自然を題材とした大作に取り組んでいる。"
+  ],
+  "affiliations": [
+    { "label": "Title", "value": "油彩画家 ／ Oil Painter" },
+    { "label": "Society", "value": "二元会 委員" },
+    { "label": "Member", "value": "日本美術家連盟 会員" }
+  ],
+  "awards": [
+    { "year": 2026, "title": "博尊賞 ／ 第65回二元展", "work": "", "badge": "Hakuson Prize", "featured": false },
+    { "year": 2025, "title": "内閣総理大臣賞 ／ 第64回二元展", "work": "早秋の渓谷", "badge": "Prime Minister's Award", "featured": true },
+    { "year": 2024, "title": "兵庫県知事賞 ／ 第63回二元展", "work": "秋色の清流", "badge": "Governor's Award", "featured": false },
+    { "year": 2023, "title": "大阪市長賞 ／ 第62回二元展", "work": "晩秋の渓谷", "badge": "Mayor's Award", "featured": false },
+    { "year": 2022, "title": "二元会努力賞 ／ 第61回二元展", "work": "秋の渓谷", "badge": "Merit Prize", "featured": false },
+    { "year": 2018, "title": "ササベ賞", "work": "", "badge": "Sasabe Prize", "featured": false },
+    { "year": 2017, "title": "大阪市長賞", "work": "", "badge": "Mayor's Award", "featured": false },
+    { "year": 2016, "title": "大阪府知事賞", "work": "", "badge": "Governor's Award", "featured": false }
+  ]
+}
