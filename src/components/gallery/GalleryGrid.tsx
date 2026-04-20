@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
+import Image from 'next/image'
 
 interface Work {
   id: number
@@ -108,7 +109,7 @@ export default function GalleryGrid({ works }: { works: Work[] }) {
           <div className="modal">
             <button className="modal-close" onClick={closeModal}>×</button>
             <div className="modal-art">
-              <img src={modalWork.img} alt={modalWork.title} />
+              <Image src={modalWork.img} alt={modalWork.title} width={1200} height={1000} style={{ width: '100%', height: 'auto' }} />
             </div>
             <div className="modal-info">
               <div className="modal-num">No. {String(modalWork.id).padStart(2, '0')} / {works.length}</div>

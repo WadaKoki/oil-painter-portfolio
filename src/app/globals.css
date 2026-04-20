@@ -7,9 +7,9 @@
   --soft: #6e5a3a;
   --rule: #cdbc94;
   --accent: #8c5a24;
-  --font-serif: "Shippori Mincho", "Noto Serif JP", serif;
-  --font-latin: "Cormorant Garamond", serif;
-  --font-body: "Noto Serif JP", serif;
+  --font-serif: var(--font-shippori), var(--font-noto-serif), serif;
+  --font-latin: var(--font-cormorant), serif;
+  --font-body: var(--font-noto-serif), serif;
   --pad: 6.5rem;
   --gap: 3.25rem;
   --cols: 3;

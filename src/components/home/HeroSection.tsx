@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import Image from 'next/image'
 
 export default function HeroSection() {
   const [open, setOpen] = useState(false)
@@ -65,7 +66,7 @@ export default function HeroSection() {
           <div className="modal">
             <button className="modal-close" onClick={close}>×</button>
             <div className="modal-art">
-              <img src="/images/sousyuu-no-keikoku.jpg" alt="早秋の渓谷" />
+              <Image src="/images/sousyuu-no-keikoku.jpg" alt="早秋の渓谷" width={1200} height={1000} style={{ width: '100%', height: 'auto' }} />
             </div>
             <div className="modal-info">
               <div className="modal-num">代表作</div>
