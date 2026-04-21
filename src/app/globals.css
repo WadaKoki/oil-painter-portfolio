@@ -309,8 +309,8 @@ html[data-ornament="minimal"] .section-num { display: none; }
   .exh-grid { grid-template-columns: 1fr; }
   .modal { width: 95vw; max-height: 90vh; overflow-y: auto; flex-direction: column; }
   .modal-back { padding: 1.5rem; }
-  .modal-art { width: 100%; }
-  .modal-art img { max-height: 60vw; max-width: 100%; width: 100%; object-fit: contain; }
+  .modal-art { width: 100%; background: transparent; }
+  .modal-art img { width: 100%; height: auto; max-height: none; max-width: 100%; }
   .modal-info { padding: 1.75rem; }
   .modal-title-text { font-size: 1.4rem; }
   .about-body { max-width: 100%; }
