@@ -31,8 +31,8 @@ export default function GalleryGrid({ works }: { works: Work[] }) {
 
   const visible = works.filter(w => !w.hidden)
   const filtered = filter === 'all' ? visible : visible.filter(w => w.tags.includes(filter))
-  const modalWork = works.find(w => w.id === modalId) ?? null
-  const modalIdx = modalWork ? works.indexOf(modalWork) : -1
+  const modalWork = visible.find(w => w.id === modalId) ?? null
+  const modalIdx = modalWork ? visible.indexOf(modalWork) : -1
 
   const openModal = (id: number) => {
     setModalId(id)
@@ -46,9 +46,9 @@ export default function GalleryGrid({ works }: { works: Work[] }) {
 
   const navModal = useCallback((d: number) => {
     if (modalIdx < 0) return
-    const next = (modalIdx + d + works.length) % works.length
-    setModalId(works[next].id)
-  }, [modalIdx, works])
+    const next = (modalIdx + d + visible.length) % visible.length
+    setModalId(visible[next].id)
+  }, [modalIdx, visible])
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
@@ -112,7 +112,7 @@ export default function GalleryGrid({ works }: { works: Work[] }) {
               <Image src={modalWork.img} alt={modalWork.title} width={1200} height={1000} style={{ width: '100%', height: 'auto' }} />
             </div>
             <div className="modal-info">
-              <div className="modal-num">No. {String(modalWork.id).padStart(2, '0')} / {works.length}</div>
+              <div className="modal-num">No. {String(modalIdx + 1).padStart(2, '0')} / {visible.length}</div>
               <h3 className="modal-title-text">{modalWork.title}</h3>
               <div className="modal-title-en">{modalWork.en}</div>
               <p className="modal-desc">{modalWork.desc}</p>
