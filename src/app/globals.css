@@ -311,8 +311,10 @@ html[data-ornament="minimal"] .section-num { display: none; }
   .modal-back { padding: 1.5rem; }
   .modal-art { width: 100%; background: transparent; }
   .modal-art img { width: 100%; height: auto; max-height: none; max-width: 100%; }
-  .modal-info { padding: 1.75rem; }
+  .modal-info { padding: 1.75rem; justify-content: flex-start; }
   .modal-title-text { font-size: 1.4rem; }
+  .modal-title-en { margin-bottom: 1.5rem; padding-bottom: 1.25rem; }
+  .modal-nav { margin-top: 1.5rem; }
   .about-body { max-width: 100%; }
   .section-head { margin-bottom: 2.5rem; }
 }
