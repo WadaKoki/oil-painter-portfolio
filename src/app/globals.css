@@ -270,8 +270,8 @@ html[data-ornament="minimal"] .section-num { display: none; }
 .nav-hamburger span.open:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
 
 /* モバイルメニューオーバーレイ */
-.nav-mobile { display: none; position: fixed; inset: 0; background: color-mix(in srgb, var(--ink) 40%, transparent); z-index: 200; opacity: 0; transition: opacity .3s; }
-.nav-mobile.open { opacity: 1; }
+.nav-mobile { display: none; position: fixed; inset: 0; background: color-mix(in srgb, var(--ink) 40%, transparent); z-index: 200; opacity: 0; transition: opacity .3s; pointer-events: none; }
+.nav-mobile.open { opacity: 1; pointer-events: all; }
 .nav-mobile-inner { position: absolute; top: 0; right: 0; width: 75vw; max-width: 320px; height: 100%; background: var(--paper); padding: 5rem 2.5rem 3rem; display: flex; flex-direction: column; gap: .5rem; }
 .nav-mobile-brand { font-family: var(--font-serif); font-size: 1.2rem; letter-spacing: .3em; margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--rule); color: var(--ink); }
 .nav-mobile-link { font-family: var(--font-serif); font-size: 1.1rem; letter-spacing: .2em; color: var(--soft); padding: 1rem 0; border-bottom: 1px solid color-mix(in srgb, var(--rule) 50%, transparent); transition: color .2s; }
