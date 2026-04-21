@@ -32,20 +32,6 @@ export default function ContactForm() {
         作品や制作についてのお問い合わせ、取材・展覧会のご依頼など、
         お気軽にご連絡ください。
       </p>
-      <dl className="contact-grid">
-        <div className="contact-block">
-          <dt>Studio</dt>
-          <dd>大阪府<br />（詳細はご連絡の上）</dd>
-        </div>
-        <div className="contact-block">
-          <dt>Email</dt>
-          <dd>studio@matsuda-hiromu.jp</dd>
-        </div>
-        <div className="contact-block">
-          <dt>Representation</dt>
-          <dd>ギャラリー小暮</dd>
-        </div>
-      </dl>
       {submitted ? (
         <p className="contact-submitted">お問い合わせを受け付けました。</p>
       ) : (
