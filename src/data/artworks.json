@@ -1,17 +1,16 @@
 [
   {
-    "id": 1,
-    "title": "秋の渓流（奥入瀬渓谷）",
-    "en": "Autumn Stream · Oirase",
-    "year": 2024,
-    "size": "F50号",
+    "id": 10,
+    "title": "あらぎ島",
+    "en": "Aragi Island",
+    "year": 0,
+    "size": "P15号",
     "medium": "油彩 · キャンバス",
     "exhibition": "—",
     "tags": ["valley", "autumn", "water"],
-    "orient": "portrait",
-    "hidden": true,
-    "img": "/images/aki-no-keiryu.jpg",
-    "desc": "奥入瀬渓谷、紅葉に染まる水流。苔むす岩と黄金の葉を抜ける光を描いた。"
+    "orient": "landscape",
+    "img": "/images/aragi-shima.jpg",
+    "desc": "燃えるような紅葉に包まれた渓流。岩を縫う白い水の流れと、赤・橙・黄の鮮やかな色彩の対比が鮮烈。"
   },
   {
     "id": 2,
@@ -27,6 +26,19 @@
     "desc": "深まる秋の渓。紅葉と岩肌、流れの三者が織りなす色の響き。"
   },
   {
+    "id": 12,
+    "title": "秋の清流",
+    "en": "Autumn Stream",
+    "year": 0,
+    "size": "F10号",
+    "medium": "油彩 · キャンバス",
+    "exhibition": "—",
+    "tags": ["water", "autumn"],
+    "orient": "landscape",
+    "img": "/images/aki-no-seiryu.jpg",
+    "desc": "赤や橙に染まる森の中を流れる清流。穏やかな瀬の白い水面と錦秋の木々が呼応する。"
+  },
+  {
     "id": 3,
     "title": "深緑の渓谷",
     "en": "Ravine in Deep Green",
@@ -38,6 +50,19 @@
     "orient": "portrait",
     "img": "/images/shinryoku-no-keikoku.jpg",
     "desc": "盛夏の渓、深い緑に包まれた静寂。水面の反射と葉の透光を重ね描く。"
+  },
+  {
+    "id": 11,
+    "title": "若葉の渓流",
+    "en": "Stream in Early Leaves",
+    "year": 0,
+    "size": "F10号",
+    "medium": "油彩 · キャンバス",
+    "exhibition": "—",
+    "tags": ["water"],
+    "orient": "landscape",
+    "img": "/images/wakaba-no-keiryu.jpg",
+    "desc": "苔むす岩の間を縫う碧い流れ。萌え出る若葉の緑に満ちた渓間の静けさを、柔らかな光とともに捉えた。"
   },
   {
     "id": 4,
@@ -53,16 +78,29 @@
     "desc": "若葉の頃、透明度を増す清流。光を透かす新緑と水の輝きを丁寧に。"
   },
   {
+    "id": 13,
+    "title": "緑の木漏れ日",
+    "en": "Green Light Through Leaves",
+    "year": 0,
+    "size": "P10号",
+    "medium": "油彩 · キャンバス",
+    "exhibition": "—",
+    "tags": ["water"],
+    "orient": "landscape",
+    "img": "/images/midori-no-komorebi.jpg",
+    "desc": "高木の梢を透かして差し込む光が水面に揺れる。深い緑の静謐な空気感を丁寧に描いた一作。"
+  },
+  {
     "id": 5,
-    "title": "若葉の渓流",
-    "en": "Stream in Early Leaves",
+    "title": "若緑の渓流",
+    "en": "Stream in Young Green",
     "year": 2022,
     "size": "F20号",
     "medium": "油彩 · キャンバス",
     "exhibition": "—",
     "tags": ["water"],
     "orient": "portrait",
-    "img": "/images/wakaba-no-keiryu.jpg",
+    "img": "/images/wakamidori-no-keiryu.jpg",
     "desc": "芽吹きの季、淡い緑と流れの始まり。柔らかな光の粒を拾う。"
   },
   {
@@ -116,5 +154,33 @@
     "orient": "portrait",
     "img": "/images/shoujin-yusui.jpg",
     "desc": "湧水が育む緑と静謐な水面。木々の影と水の透明感を重ねて。"
+  },
+  {
+    "id": 1,
+    "title": "秋の渓流（奥入瀬渓谷）",
+    "en": "Autumn Stream · Oirase",
+    "year": 2024,
+    "size": "F50号",
+    "medium": "油彩 · キャンバス",
+    "exhibition": "—",
+    "tags": ["valley", "autumn", "water"],
+    "orient": "portrait",
+    "hidden": true,
+    "img": "/images/aki-no-keiryu.jpg",
+    "desc": "奥入瀬渓谷、紅葉に染まる水流。苔むす岩と黄金の葉を抜ける光を描いた。"
+  },
+  {
+    "id": 14,
+    "title": "（題名未定）",
+    "en": "",
+    "year": 0,
+    "size": "",
+    "medium": "油彩 · キャンバス",
+    "exhibition": "—",
+    "tags": [],
+    "orient": "portrait",
+    "hidden": true,
+    "img": "/images/noname.jpg",
+    "desc": ""
   }
 ]
