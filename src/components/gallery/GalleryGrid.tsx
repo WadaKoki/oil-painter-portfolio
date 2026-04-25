@@ -86,7 +86,7 @@ export default function GalleryGrid({ works }: { works: Work[] }) {
             onClick={() => openModal(w.id)}
           >
             <div className="work-thumb">
-              <span className="work-num">No. {String(w.id).padStart(2, '0')}</span>
+              <span className="work-num">No. {String(visible.indexOf(w) + 1).padStart(2, '0')}</span>
               <div
                 className="work-thumb-art"
                 style={{ backgroundImage: `url('${w.img}')` }}
