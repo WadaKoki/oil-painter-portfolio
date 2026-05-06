@@ -28,10 +28,6 @@ export default function ContactForm() {
     <section className="contact" id="contact">
       <h2 className="contact-title">ご 連 絡</h2>
       <div className="contact-en">Contact &amp; Inquiries</div>
-      <p className="contact-lead">
-        作品や制作についてのお問い合わせ、取材・展覧会のご依頼など、
-        お気軽にご連絡ください。
-      </p>
       {submitted ? (
         <p className="contact-submitted">お問い合わせを受け付けました。</p>
       ) : (
@@ -46,13 +42,7 @@ export default function ContactForm() {
           </div>
           <div className="field">
             <label>ご用件 · Subject</label>
-            <select name="subject">
-              <option>作品の購入について</option>
-              <option>取材・掲載依頼</option>
-              <option>展覧会出品依頼</option>
-              <option>アトリエ訪問</option>
-              <option>その他</option>
-            </select>
+            <input type="text" name="subject" />
           </div>
           <div className="field">
             <label>ご用件詳細 · Message</label>

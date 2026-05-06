@@ -26,7 +26,7 @@ const cormorant = Cormorant_Garamond({
 
 export const metadata: Metadata = {
   title: '松田 啓 — 油彩画家',
-  description: '自然の四季がもたらす色彩の豊かさと奥深さを、油彩画を通して追求する。渓谷の水流と木々の色づきに宿る、光と影の響きを描き続けて二十年。',
+  description: '渓流に魅せられて二十余年。春の新緑、秋の紅葉、光と水が織りなす四季の渓谷を尋ね、その安らぎの美を油彩画に描き続けています。',
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

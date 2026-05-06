@@ -35,8 +35,7 @@ export default function HeroSection() {
           </h1>
           <div className="hero-latin">Matsuda Hiromu — Peintre à l&apos;huile</div>
           <p className="hero-desc">
-            自然の四季がもたらす色彩の豊かさと奥深さを、油彩画を通して追求する。
-            渓谷の水流と木々の色づきに宿る、光と影の響きを描き続けて二十年。
+            渓流に魅せられて二十余年。春の新緑、秋の紅葉、光と水が織りなす四季の渓谷を尋ね、その安らぎの美を油彩画に描き続けています。
           </p>
           <div className="hero-accolade">
             <div className="hero-accolade-label">Prime Minister&apos;s Award · 2025</div>
