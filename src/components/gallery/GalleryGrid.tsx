@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import Image from 'next/image'
 
 interface Work {
@@ -28,6 +28,8 @@ const FILTERS = [
 export default function GalleryGrid({ works }: { works: Work[] }) {
   const [filter, setFilter] = useState('all')
   const [modalId, setModalId] = useState<number | null>(null)
+  const [isOpen, setIsOpen] = useState(false)
+  const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const visible = works.filter(w => !w.hidden)
   const filtered = filter === 'all' ? visible : visible.filter(w => w.tags.includes(filter))
@@ -35,13 +37,22 @@ export default function GalleryGrid({ works }: { works: Work[] }) {
   const modalIdx = modalWork ? visible.indexOf(modalWork) : -1
 
   const openModal = (id: number) => {
+    if (closeTimerRef.current) {
+      clearTimeout(closeTimerRef.current)
+      closeTimerRef.current = null
+    }
     setModalId(id)
+    setIsOpen(true)
     document.body.style.overflow = 'hidden'
   }
 
   const closeModal = useCallback(() => {
-    setModalId(null)
+    setIsOpen(false)
     document.body.style.overflow = ''
+    closeTimerRef.current = setTimeout(() => {
+      setModalId(null)
+      closeTimerRef.current = null
+    }, 300)
   }, [])
 
   const navModal = useCallback((d: number) => {
@@ -51,15 +62,25 @@ export default function GalleryGrid({ works }: { works: Work[] }) {
   }, [modalIdx, visible])
 
   useEffect(() => {
+    if (modalIdx < 0) return
+    const preload = (idx: number) => {
+      const img = new window.Image()
+      img.src = visible[idx].img
+    }
+    preload((modalIdx + 1) % visible.length)
+    preload((modalIdx - 1 + visible.length) % visible.length)
+  }, [modalIdx, visible])
+
+  useEffect(() => {
     const handler = (e: KeyboardEvent) => {
-      if (modalId === null) return
+      if (!isOpen) return
       if (e.key === 'Escape') closeModal()
       if (e.key === 'ArrowLeft') navModal(-1)
       if (e.key === 'ArrowRight') navModal(1)
     }
     document.addEventListener('keydown', handler)
     return () => document.removeEventListener('keydown', handler)
-  }, [modalId, closeModal, navModal])
+  }, [isOpen, closeModal, navModal])
 
   return (
     <section className="works" id="works">
@@ -87,10 +108,15 @@ export default function GalleryGrid({ works }: { works: Work[] }) {
           >
             <div className="work-thumb">
               <span className="work-num">No. {String(visible.indexOf(w) + 1).padStart(2, '0')}</span>
-              <div
-                className="work-thumb-art"
-                style={{ backgroundImage: `url('${w.img}')` }}
-              />
+              <div className="work-thumb-art">
+                <Image
+                  src={w.img}
+                  alt={w.title}
+                  fill
+                  style={{ objectFit: 'cover' }}
+                  sizes="(max-width: 768px) 50vw, 25vw"
+                />
+              </div>
             </div>
             <div className="work-caption">
               <div className="work-title">{w.title}</div>
@@ -100,16 +126,15 @@ export default function GalleryGrid({ works }: { works: Work[] }) {
         ))}
       </div>
 
-
-<div
-        className={`modal-back${modalWork ? ' open' : ''}`}
+      <div
+        className={`modal-back${isOpen ? ' open' : ''}`}
         onClick={(e) => { if ((e.target as HTMLElement).className.includes('modal-back')) closeModal() }}
       >
         {modalWork && (
           <div className="modal">
             <button className="modal-close" onClick={closeModal}>×</button>
             <div className="modal-art">
-              <Image src={modalWork.img} alt={modalWork.title} width={1200} height={1000} style={{ width: '100%', height: 'auto' }} />
+              <Image key={modalWork.img} src={modalWork.img} alt={modalWork.title} width={1200} height={1000} style={{ width: '100%', height: 'auto' }} priority />
             </div>
             <div className="modal-info">
               <div className="modal-num">No. {String(modalIdx + 1).padStart(2, '0')} / {visible.length}</div>
