@@ -99,7 +99,7 @@ export default function GalleryGrid({ works }: { works: Work[] }) {
       </div>
 
       <div className="works-grid">
-        {filtered.map(w => (
+        {filtered.map((w, idx) => (
           <div
             key={w.id}
             className="work"
@@ -115,6 +115,7 @@ export default function GalleryGrid({ works }: { works: Work[] }) {
                   fill
                   style={{ objectFit: 'cover' }}
                   sizes="(max-width: 768px) 50vw, 25vw"
+                  priority={idx < 6}
                 />
               </div>
             </div>
@@ -134,7 +135,7 @@ export default function GalleryGrid({ works }: { works: Work[] }) {
           <div className="modal">
             <button className="modal-close" onClick={closeModal}>×</button>
             <div className="modal-art">
-              <Image key={modalWork.img} src={modalWork.img} alt={modalWork.title} width={1200} height={1000} style={{ width: '100%', height: 'auto' }} priority />
+              <Image key={modalWork.img} src={modalWork.img} alt={modalWork.title} width={1200} height={1000} priority />
             </div>
             <div className="modal-info">
               <div className="modal-num">No. {String(modalIdx + 1).padStart(2, '0')} / {visible.length}</div>

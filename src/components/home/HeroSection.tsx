@@ -51,6 +51,16 @@ export default function HeroSection() {
           tabIndex={0}
           onKeyDown={e => e.key === 'Enter' && openModal()}
         >
+          <div className="hero-art-inner">
+            <Image
+              src="/images/sousyuu-no-keikoku.jpg"
+              alt="早秋の渓谷"
+              fill
+              priority
+              style={{ objectFit: 'cover' }}
+              sizes="(max-width: 1100px) 100vw, 50vw"
+            />
+          </div>
           <div className="hero-art-label">早 秋 の 渓 谷</div>
           <div className="hero-art-cap">[ 早秋の渓谷 · oil on canvas · F130号 ]</div>
         </div>
@@ -65,7 +75,7 @@ export default function HeroSection() {
           <div className="modal">
             <button className="modal-close" onClick={close}>×</button>
             <div className="modal-art">
-              <Image src="/images/sousyuu-no-keikoku.jpg" alt="早秋の渓谷" width={1200} height={1000} style={{ width: '100%', height: 'auto' }} />
+              <Image src="/images/sousyuu-no-keikoku.jpg" alt="早秋の渓谷" width={1200} height={1000} />
             </div>
             <div className="modal-info">
               <div className="modal-num">代表作</div>

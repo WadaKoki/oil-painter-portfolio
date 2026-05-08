@@ -78,17 +78,17 @@ img { max-width: 100%; display: block; }
 }
 .hero-art::before {
   content: ""; position: absolute; inset: 1.25rem;
-  background-image: url('/images/sousyuu-no-keikoku.jpg');
-  background-size: contain; background-position: center; background-repeat: no-repeat;
   border: 1px solid color-mix(in srgb, var(--ink) 8%, transparent);
+  z-index: 2; pointer-events: none;
 }
 .hero-art::after {
   content: ""; position: absolute; inset: 1.25rem; pointer-events: none;
   background: repeating-linear-gradient(135deg, color-mix(in srgb,#000 8%, transparent) 0 1px, transparent 1px 14px);
-  mix-blend-mode: overlay; opacity: .4;
+  mix-blend-mode: overlay; opacity: .4; z-index: 3;
 }
-.hero-art-cap { position: relative; z-index: 1; font-family: 'ui-monospace', monospace; font-size: .7rem; letter-spacing: .1em; color: var(--soft); background: color-mix(in srgb, var(--paper) 92%, transparent); padding: .5rem .75rem; border: 1px solid var(--rule); }
-.hero-art-label { position: absolute; top: 1.25rem; right: 1.25rem; z-index: 2; writing-mode: vertical-rl; text-orientation: mixed; font-family: var(--font-serif); font-size: .9rem; letter-spacing: .5em; color: var(--paper); mix-blend-mode: difference; }
+.hero-art-inner { position: absolute; inset: 1.25rem; overflow: hidden; z-index: 1; }
+.hero-art-cap { position: relative; z-index: 4; font-family: 'ui-monospace', monospace; font-size: .7rem; letter-spacing: .1em; color: var(--soft); background: color-mix(in srgb, var(--paper) 92%, transparent); padding: .5rem .75rem; border: 1px solid var(--rule); }
+.hero-art-label { position: absolute; top: 1.25rem; right: 1.25rem; z-index: 4; writing-mode: vertical-rl; text-orientation: mixed; font-family: var(--font-serif); font-size: .9rem; letter-spacing: .5em; color: var(--paper); mix-blend-mode: difference; }
 .hero-art-clickable { cursor: pointer; }
 .hero-art-clickable:hover::after { opacity: .6; }
 .hero-art-clickable::after { transition: opacity .4s; }
@@ -146,8 +146,10 @@ section { padding: 7rem var(--pad); position: relative; }
 .work-thumb { aspect-ratio: 4/5; background: var(--paper); border: 1px solid var(--rule); position: relative; overflow: hidden; margin-bottom: 1.25rem; }
 .work[data-orient="wide"] .work-thumb { aspect-ratio: 5/4; }
 .work[data-orient="sq"] .work-thumb { aspect-ratio: 1/1; }
-.work-thumb-art { position: absolute; inset: 1rem; background-color: #1a1612; border: 1px solid color-mix(in srgb, var(--ink) 10%, transparent); overflow: hidden; }
+.work-thumb-art { position: absolute; inset: 1rem; background-color: var(--paper); border: 1px solid color-mix(in srgb, var(--ink) 10%, transparent); overflow: hidden; }
 .work-thumb-art::after { content: ""; position: absolute; inset: 0; background: repeating-linear-gradient(2deg, transparent 0 3px, color-mix(in srgb,#000 15%, transparent) 3px 4px), repeating-linear-gradient(92deg, transparent 0 4px, color-mix(in srgb,#000 10%, transparent) 4px 5px); mix-blend-mode: overlay; opacity: .25; pointer-events: none; }
+.work-thumb-art img { animation: artIn 0.4s ease both; }
+@keyframes artIn { from { opacity: 0; } to { opacity: 1; } }
 .work-thumb::before { content: ""; position: absolute; inset: 0; background: var(--ink); opacity: 0; transition: opacity .4s; z-index: 2; }
 .work-thumb::after { content: "詳細を見る"; position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%); font-family: var(--font-serif); font-size: .85rem; letter-spacing: .4em; color: var(--paper); opacity: 0; transition: opacity .4s; z-index: 3; border: 1px solid var(--paper); padding: .75rem 1.5rem; white-space: nowrap; }
 .work-num { position: absolute; top: .75rem; left: .75rem; font-family: var(--font-latin); font-style: italic; font-size: .7rem; color: color-mix(in srgb, var(--paper) 75%, transparent); z-index: 2; letter-spacing: .15em; }
@@ -165,9 +167,9 @@ section { padding: 7rem var(--pad); position: relative; }
 .modal-back.open .modal { transform: scale(1); }
 .modal-close { position: absolute; top: 1rem; right: 1rem; z-index: 2; background: var(--paper); border: 1px solid var(--rule); width: 2.5rem; height: 2.5rem; cursor: pointer; font-family: var(--font-latin); font-size: 2.5rem; color: var(--ink); display: flex; align-items: center; justify-content: center; line-height: 1; padding-bottom: 0.15em; }
 .modal-close:hover { background: var(--ink); color: var(--paper); }
-.modal-art { background: #0a0908; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
-.modal-art img { display: block; max-height: 70vh; max-width: 65vw; width: auto; height: auto; }
-.modal-info { padding: 3rem 2.5rem; display: flex; flex-direction: column; }
+.modal-art { flex: 1 1 auto; min-width: 0; background: var(--paper); display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.modal-art img { display: block; width: 100%; height: auto; animation: artIn 0.35s ease both; }
+.modal-info { flex: 0 0 320px; width: 320px; padding: 3rem 2.5rem; display: flex; flex-direction: column; }
 .modal-num { font-family: var(--font-latin); font-style: italic; font-size: .8rem; color: var(--accent); letter-spacing: .3em; margin-bottom: 1rem; }
 .modal-title-text { font-family: var(--font-serif); font-size: 2rem; font-weight: 700; letter-spacing: .1em; margin-bottom: .5rem; line-height: 1.3; }
 .modal-title-en { font-family: var(--font-latin); font-style: italic; color: var(--soft); font-size: 1rem; margin-bottom: 2.5rem; letter-spacing: .15em; padding-bottom: 2rem; border-bottom: 1px solid var(--rule); }
@@ -311,9 +313,9 @@ html[data-ornament="minimal"] .section-num { display: none; }
   .modal { width: 95vw; max-height: 90vh; overflow-y: auto; flex-direction: column; }
   .modal-back { padding: 1.5rem; }
   .modal-close { width: 2.5rem; height: 2.5rem; font-size: 2.5rem; top: .75rem; right: .75rem; }
-  .modal-art { width: 100%; background: transparent; }
+  .modal-art { flex: none; width: 100%; background: var(--paper); }
   .modal-art img { width: 100%; height: auto; max-height: none; max-width: 100%; }
-  .modal-info { padding: 1.75rem; justify-content: flex-start; }
+  .modal-info { flex: none; width: 100%; padding: 1.75rem; justify-content: flex-start; }
   .modal-title-text { font-size: 1.4rem; }
   .modal-title-en { margin-bottom: 1.5rem; padding-bottom: 1.25rem; }
   .modal-nav { margin-top: 1.5rem; }
